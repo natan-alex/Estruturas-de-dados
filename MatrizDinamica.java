@@ -27,7 +27,7 @@ class MatrizDinamica {
         Celula tmp = inicio;
 
         // primeira linha da matriz
-        for (int i = 0; i < linhas; i++) {
+        for (int i = 0; i < colunas; i++) {
             tmp.dir = new Celula();
             tmp.dir.esq = tmp;
             tmp = tmp.dir;
@@ -217,7 +217,7 @@ class MatrizDinamica {
 class Main{
     public static void main(String[] args) {
         MatrizDinamica m = new MatrizDinamica(2, 2);
-        m.inserir(10, 0, 0);
+        m.inserirValor(10, 0, 0);
         m.mostrarItens();
     }
 }
