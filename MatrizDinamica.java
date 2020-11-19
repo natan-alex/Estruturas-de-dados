@@ -34,7 +34,7 @@ class MatrizDinamica {
         }
 
         // linhas restantes
-        for (int i = 1; i < linhas; i++) {
+        for (int i = 1; i < colunas; i++) {
             tmp = inicio.dir;
 
             for (int j = 1; j < i; j++)
