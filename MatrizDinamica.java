@@ -26,12 +26,14 @@ class MatrizDinamica {
 
         Celula tmp = inicio;
 
+        // primeira linha da matriz
         for (int i = 0; i < linhas; i++) {
             tmp.dir = new Celula();
             tmp.dir.esq = tmp;
             tmp = tmp.dir;
         }
 
+        // linhas restantes
         for (int i = 1; i < linhas; i++) {
             tmp = inicio.dir;
 
@@ -41,6 +43,7 @@ class MatrizDinamica {
             tmp.inf = new Celula();
             tmp.inf.sup = tmp;
 
+            // conexao em "grade"
             for (int j = 1; j < colunas; j++) {
                 tmp = tmp.dir;
                 Celula tmp2 = tmp.esq.inf;
@@ -53,6 +56,7 @@ class MatrizDinamica {
         }
     }
 
+    // varre linhas, depois colunas ate o local de insercao
     public void inserirValor(int item, int linha, int coluna) {
         Celula tmp = inicio.dir;
 
@@ -92,6 +96,8 @@ class MatrizDinamica {
         }
     }
 
+    // linhas e colunas caminham juntas, tanto da matriz resultado quanto 
+    // das matrizes a serem somadas
     public MatrizDinamica soma(MatrizDinamica m) {
         MatrizDinamica resultado = new MatrizDinamica(this.linhas, this.colunas);
 
@@ -102,6 +108,8 @@ class MatrizDinamica {
             tmp2 = m.inicio.dir;
             tmp3 = resultado.inicio.dir;
 
+            // descer o numero de linhas necessarias a 
+            // partir do inicio
             for (int j = 0; j < i; j++) {
                 tmp = tmp.inf;
                 tmp2 = tmp2.inf;
@@ -138,6 +146,8 @@ class MatrizDinamica {
                 tmp3 = tmp3.inf;
             }
 
+            // guardar o posicao de inicio dos ponteiros, 
+            // o inicio de cada linha
             Celula inicio_tmp = tmp;
             Celula inicio_tmp3 = tmp3;
             for (int i = 0; i < m.colunas; i++) {
@@ -158,6 +168,7 @@ class MatrizDinamica {
                     tmp2 = tmp2.inf;
                 }
 
+                // voltar ao inicio enquanto i < m.colunas
                 tmp = inicio_tmp;
                 tmp3 = inicio_tmp3;
             }
@@ -166,6 +177,7 @@ class MatrizDinamica {
         return resultado;
     }
 
+    // elemento da diagonal principal: quando i == j
     public void mostrarDiagonalPrincipal() {
         Celula tmp = inicio.dir;
 
@@ -182,6 +194,9 @@ class MatrizDinamica {
         System.out.println();
     }
 
+    // tendo em vista que 0 e o primeiro elemento
+    // da linha e da coluna, elemento da diagonal 
+    // secundaria ocorre quando i + j == linhas - 1
     public void mostrarDiagonalSecundaria() {
         Celula tmp = inicio.dir;
 
@@ -200,49 +215,9 @@ class MatrizDinamica {
 }
 
 class Main{
-    private static int qtdOperacoes = 0;
-
-    public static MatrizDinamica leERetornaMatriz(int linhas, int colunas) {
-        MatrizDinamica m = new MatrizDinamica(linhas, colunas);
-        for (int i = 0; i < linhas; i++) {
-            String s = MyIO.readLine();
-            String[] linha = s.split(" ");
-
-            for (int j = 0; j < colunas; j++) {
-                m.inserirValor(Integer.parseInt(linha[j]), i, j);
-            }
-        }
-
-        return m;
-    }
-
     public static void main(String[] args) {
-        String s = ""; // para leitura da entrada padrao
-
-        s = MyIO.readLine();
-
-        qtdOperacoes = Integer.parseInt(s);
-
-        for (int i = 0; i < qtdOperacoes; i++) {
-            s = MyIO.readLine();
-            int linhas = Integer.parseInt(s);
-            s = MyIO.readLine();
-            int colunas = Integer.parseInt(s);
-            MatrizDinamica m1 = leERetornaMatriz(linhas, colunas);
-            m1.mostrarDiagonalPrincipal();
-            m1.mostrarDiagonalSecundaria();
-        
-            s = MyIO.readLine();
-            linhas = Integer.parseInt(s);
-            s = MyIO.readLine();
-            colunas = Integer.parseInt(s);
-
-            MatrizDinamica m2 = leERetornaMatriz(linhas, colunas);
-            MatrizDinamica resultado = m2.soma(m1);
-            resultado.mostrarItens();;
-
-            MatrizDinamica resultado2 = m1.multiplicacao(m2);
-            resultado2.mostrarItens();
-        }
+        MatrizDinamica m = new MatrizDinamica(2, 2);
+        m.inserir(10, 0, 0);
+        m.mostrarItens();
     }
 }
