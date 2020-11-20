@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
 // the maximum size of the queue
 #define TAM 5
 // make easy to do the operations
