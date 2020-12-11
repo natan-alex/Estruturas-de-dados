@@ -211,7 +211,7 @@ class MatrizDinamica {
         System.out.println();
     }
 
-    // tendo em vista que 0 e o primeiro elemento
+    // tendo em vista que 0 é a primeira posição
     // da linha e da coluna, elemento da diagonal 
     // secundaria ocorre quando i + j == linhas - 1
     public void mostrarDiagonalSecundaria() {
