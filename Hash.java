@@ -20,13 +20,15 @@ class Hash {
     }
 
     public int hash(Object item) {
+        // change the key with whatever you want
         return (item.key % tableSize);
     }
 
     // return the position where item has been inserted
     public int insert(Object item) {
-        int pInsertion = hash(item);
-        int posReturn = -1;
+        int pInsertion = hash(item); 
+        int posReturn = -1; 
+        // if the position is free
         if (htable[pInsertion] == null) {
             htable[pInsertion] = item.clone();
             posReturn = pInsertion;
@@ -48,9 +50,13 @@ class Hash {
     public int remove(Object toBeRemoved) {
         int pos = -1;
         int pRemotion = hash(toBeRemoved);
+        // found on the main area
         if (htable[pRemotion].equals(toBeRemoved)) {
             pos = pRemotion;
             boolean hasSubstitute = false;
+            // change the item in the main area
+            // with the item in the overflow area
+            // with the same hash 
             for (int i = 0; i < posOverflow && !hasSubstitute; i++) {
                 if (hash(htable[i + tableSize]) == pRemotion) {
                     hasSubstitute = true;
@@ -62,6 +68,7 @@ class Hash {
                 }
             }
         } else {
+            // not found on main area -> search in the overflow area
             for (int i = 0; i < posOverflow; i++) {
                 if (htable[i + tableSize].equals(toBeRemoved)) {
                     pos = i + tableSize;
@@ -88,6 +95,9 @@ class Hash {
         if (htable[key] != null) {
             removed = htable[key].clone();
             boolean hasSubstitute = false;
+            // again, put in the main area
+            // the item with the same hash coming
+            // from the overflow area
             for (int i = 0; i < posOverflow && !hasSubstitute; i++) {
                 if (hash(htable[i + tableSize]) == key) {
                     hasSubstitute = true;
