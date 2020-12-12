@@ -106,17 +106,64 @@ class Hash {
         System.out.println("\nÁrea principal: [");
         for (int i = 0; i < tableSize; i++) {
             System.out.print("\t");
-            if (htable[i] != null) 
-                htable[i].imprimir();
+            if (htable[i] != null)
+                System.out.println(htable[i].toString());
             else
                 System.out.println("null");
         }
         System.out.println("]\n");
         System.out.println("Área de reserva: [");
         for (int i = 0; i < posOverflow; i++) {
-            System.out.print("\t");
-            htable[tableSize + i].imprimir();
+            System.out.print("\t"+htable[tableSize + i].toString() + "\n");
         }
         System.out.println("]\n");
+    }
+
+    public boolean search(Object obj) {                                                        
+        boolean retorno = false;                                                              
+        if (obj == null) {                                                                      
+            System.out.println("Object nulo!");                                              
+        } else {                                                                              
+            int hashJ = hash(obj);                                                              
+            if (htable[hashJ].equals(obj)) {                                                    
+                retorno = true;                                                               
+            } else {                                                                          
+                // searching on overflow area                                                 
+                for (int i = 0; i < posOverflow && !retorno; i++) {                           
+                    if (htable[i + tableSize].equals(obj)) {                                    
+                        retorno = true;                                                       
+                        }                                                                         
+                }                                                                             
+                if (!retorno) {                                                               
+                    System.out.println("NAO");                                                
+                }                                                                             
+            }                                                                                 
+        }
+        return retorno;                                                                       
+    }
+
+    // return the position of the item
+    // -1 if not found
+    public int searchWithPos(Object obj) {
+        int pos = -1;
+        if (j == null) {
+            System.out.println("Object nulo!");
+        } else {
+            int hashJ = hash(obj);
+            if (htable[hashJ].equals(obj)) {
+                pos = hashJ;
+            } else {
+                // searching on overflow area
+                for (int i = 0; i < posOverflow && (pos == -1); i++) {
+                    if (htable[i + tableSize].equals(obj)) {
+                        pos = i + tableSize;
+                    }
+                }
+                if (pos == -1) {
+                    System.out.println("NAO");
+                }
+            }
+        }
+        return pos;
     }
 }
