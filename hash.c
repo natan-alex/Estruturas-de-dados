@@ -31,7 +31,7 @@ int inserir(int **thash, int item) {
         thash[pos] = p;
         posInsercao = pos;
     } else {
-        if (reserva < REALSIZE) {
+        if (reserva < (REALSIZE - TAM)) {
             int posReserva = TAM + reserva++;
             thash[posReserva] = p; 
             posInsercao = posReserva;

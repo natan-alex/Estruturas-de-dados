@@ -33,7 +33,7 @@ class Hash {
             htable[pInsertion] = item.clone();
             posReturn = pInsertion;
         } else {
-            if (posOverflow < tableSize) {
+            if (posOverflow < (realsize - tableSize)) {
                 htable[tableSize + posOverflow] = item.clone();
                 posReturn = tableSize + posOverflow;
                 posOverflow++;
