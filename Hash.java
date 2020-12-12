@@ -143,10 +143,7 @@ class Hash {
                     if (htable[i + tableSize].equals(obj)) {                                    
                         retorno = true;                                                       
                         }                                                                         
-                }                                                                             
-                if (!retorno) {                                                               
-                    System.out.println("NAO");                                                
-                }                                                                             
+                }                                                                                                                                                         
             }                                                                                 
         }
         return retorno;                                                                       
@@ -168,9 +165,6 @@ class Hash {
                     if (htable[i + tableSize].equals(obj)) {
                         pos = i + tableSize;
                     }
-                }
-                if (pos == -1) {
-                    System.out.println("NAO");
                 }
             }
         }
