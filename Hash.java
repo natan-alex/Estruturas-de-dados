@@ -50,7 +50,7 @@ class Hash {
     public int remove(Object toBeRemoved) {
         int pos = -1;
         int pRemotion = hash(toBeRemoved);
-        // found on the main area
+        // found in the main area
         if (htable[pRemotion].equals(toBeRemoved)) {
             pos = pRemotion;
             boolean hasSubstitute = false;
@@ -68,7 +68,7 @@ class Hash {
                 }
             }
         } else {
-            // not found on main area -> search in the overflow area
+            // not found in main area -> search in the overflow area
             for (int i = 0; i < posOverflow; i++) {
                 if (htable[i + tableSize].equals(toBeRemoved)) {
                     pos = i + tableSize;
@@ -143,10 +143,7 @@ class Hash {
                     if (htable[i + tableSize].equals(obj)) {                                    
                         retorno = true;                                                       
                         }                                                                         
-                }                                                                             
-                if (!retorno) {                                                               
-                    System.out.println("NAO");                                                
-                }                                                                             
+                }                                                                                                                                                         
             }                                                                                 
         }
         return retorno;                                                                       
@@ -163,14 +160,11 @@ class Hash {
             if (htable[hashJ].equals(obj)) {
                 pos = hashJ;
             } else {
-                // searching on overflow area
+                // searching in overflow area
                 for (int i = 0; i < posOverflow && (pos == -1); i++) {
                     if (htable[i + tableSize].equals(obj)) {
                         pos = i + tableSize;
                     }
-                }
-                if (pos == -1) {
-                    System.out.println("NAO");
                 }
             }
         }
