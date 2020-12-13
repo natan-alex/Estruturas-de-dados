@@ -86,6 +86,7 @@ bool inserirNaPos(Lista * lista, int item, int pos) {
         printf("Posicao de insercao invalida.\n");
     } else {
         Celula * c = newCelula2(item);
+        // inserir
         if (pos == 0) {
             inseriuComSucesso = inserirNoInicio(lista, item);
         } else if (pos == lista->qtd) {
@@ -165,6 +166,14 @@ int removerDaPos(Lista * lista, int pos) {
     return removido;
 }
 
+bool pesquisar(Lista * lista, int item) {
+    bool encontrado = false;
+    for (Celula * c = lista->primeiro->prox; c != NULL && !encontrado; c = c->prox)
+        if (c->item == item) 
+            encontrado = true;
+    return encontrado;
+}
+
 void mostrarItens(Lista * lista) {
     if (lista->primeiro == lista->ultimo) {
         printf("Lista vazia!\n");
@@ -186,80 +195,101 @@ void desalocarLista(Lista * lista) {
     c = NULL;
 }
 
-void realizaOperacao(Lista * lista, char * operacao) {
-    int num, pos;
-    if (strcmp(operacao, "II") == 0) {
-        printf("Numero: ");
-        scanf("%d", &num);
-        inserirNoInicio(lista, num);
-    } else if (strcmp(operacao, "IF") == 0) {
-        printf("Numero: ");
-        scanf("%d", &num);
-        inserirNoFim(lista, num);
-    } else if (strcmp(operacao, "I*") == 0) {
-        printf("Numero: ");
-        scanf("%d", &num);
-        printf("Posicao: ");
-        scanf("%d", &pos);
-        inserirNaPos(lista, num, pos);
-    } else if (strcmp(operacao, "RI") == 0) {
-        printf("Removido: %d\n", removerDoInicio(lista));
-    } else if (strcmp(operacao, "RF") == 0) {
-        printf("Removido: %d\n", removerDoFim(lista));
-    } else if (strcmp(operacao, "R*") == 0) {
-        printf("Posicao: ");
-        scanf("%d", &pos);
-        printf("Removido: %d\n", removerDaPos(lista, pos));
-    }
-    printf("Elementos da lista: ");
-    mostrarItens(lista);
+// -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+int tamHash = 10;
+
+Lista ** newHash() {
+    Lista ** tabelaHash = (Lista **) malloc(sizeof(Lista *) * tamHash);
+    for (int i = 0; i < tamHash; i++) 
+        tabelaHash[i] = newLista();
+    return tabelaHash;
 }
 
-int main(int argc, char * argv[]) {
-    Lista * lista = newLista();
-    int op;
-    do {
-        printf("MENU\n");
-        printf("[1] -- inserirNoInicio()\n");
-        printf("[2] -- inserirNoFim()\n");
-        printf("[3] -- inserirNaPos()\n");
-        printf("[4] -- removerDoInicio()\n");
-        printf("[5] -- removerDoFim()\n");
-        printf("[6] -- removerDaPos()\n");
-        printf("[7] -- mostrarItens()\n");
-        printf("[0] -- sair\n");
-        printf("Opcao: ");
-        scanf("%d", &op);
-        switch (op) {
-            case 1: 
-                realizaOperacao(lista, "II");
-                break;
-            case 2:
-                realizaOperacao(lista, "IF");
-                break;
-            case 3:
-                realizaOperacao(lista, "I*");
-                break;
-            case 4:
-                realizaOperacao(lista, "RI");
-                break;
-            case 5:
-                realizaOperacao(lista, "RF");
-                break;
-            case 6:
-                realizaOperacao(lista, "R*");
-                break;
-            case 7:
-                printf("Elementos da lista: ");
-                mostrarItens(lista);
-                break;
-            case 0:
-                printf("Finalizado.\n");
-                desalocarLista(lista);
-                break;
-            default: 
-                printf("Operacao invalida.\n");
-                break;
+Lista ** newHash2(int tamanho) {
+    tamHash = tamanho;
+    Lista ** tabelaHash = (Lista **) malloc(sizeof(Lista *) * tamHash);
+    for (int i = 0; i < tamHash; i++) 
+        tabelaHash[i] = newLista();
+    return tabelaHash;
+}
+
+int hash(int item) {
+    return item % tamHash;
+}
+
+bool inserirNaTHash(Lista ** thash, int item) {
+    bool inseriuComSucesso = false;
+    int pos = hash(item);
+    inseriuComSucesso = inserirNoFim(thash[pos], item);
+    return inseriuComSucesso;
+}
+
+int removerDaTHash(Lista ** thash, int pos) {
+    int removido = -9999;
+    if (pos >= 0 && pos < tamHash) {
+        removido = removerDoFim(thash[pos]);
+    } else {
+        printf("Posicao na tabela invalida.\n");
+    }
+    return removido;
+}
+
+int removerDaTHashNaPos(Lista ** thash, int posNaHash, int posNaLista) {
+    int removido = -9999;
+    if (posNaHash >= 0 && posNaHash < tamHash) {
+        if (posNaLista >= 0 && posNaLista < thash[posNaHash]->qtd) {
+            removido = removerDaPos(thash[posNaHash], posNaLista);
+        } else {
+            printf("Posicao de remocao na lista invalida.\n");
         }
-    } while (op != 0);
+    } else {
+        printf("Posicao na tabela invalida.\n");
+    }
+    return removido;
+}
+
+bool pesquisarItemNaTHash(Lista ** thash, int item) {
+    bool existeOItem = false;
+    int posItem = hash(item);
+    existeOItem = pesquisar(thash[posItem], item);
+    return existeOItem;
+}
+
+void pesquisarItemNaTHash2(Lista ** thash, int item) {
+    printf("Pesquisando pelo item %d...\n", item);
+    bool existeOItem = false;
+    int posItem = hash(item);
+    existeOItem = pesquisar(thash[posItem], item);
+    if (existeOItem) {
+        printf("Item encontrado.\n");
+    } else {
+        printf("Item nao encontrado.\n");
+    }
+}
+
+void mostrarItensTHash(Lista ** thash) {
+    for (int i = 0; i < tamHash; i++) 
+        mostrarItens(thash[i]);
+    printf("\n");
+}
+
+// -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+
+int main(int argc, char ** argv) {
+    Lista ** thash = newHash2(5);
+    inserirNaTHash(thash, 10);
+    inserirNaTHash(thash, 20);
+    inserirNaTHash(thash, 21);
+    inserirNaTHash(thash, 31);
+    inserirNaTHash(thash, 51);
+    inserirNaTHash(thash, 22);
+    inserirNaTHash(thash, 13);
+    inserirNaTHash(thash, 44);
+    mostrarItensTHash(thash);
+    removerDaTHash(thash, 0);
+    mostrarItensTHash(thash);
+    removerDaTHashNaPos(thash, 1, 1);
+    mostrarItensTHash(thash);
+    pesquisarItemNaTHash2(thash, 31);
+    return 0;
 }
