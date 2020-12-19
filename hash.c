@@ -3,16 +3,16 @@
 #include <string.h>
 #include <stdbool.h>
 
-typedef struct THash {
+typedef struct Hash {
 	int tableSize;
 	int overflowSize;
 	int realSize;
 	int posOverflow; // control insertions in overflow area
 	int ** thash;
-} THash;
+} Hash;
 
-THash * newTHash(int tamTable, int tamOverflow) {
-	THash * th = (THash *) malloc(sizeof(THash));
+Hash * newHash(int tamTable, int tamOverflow) {
+	Hash * th = (Hash *) malloc(sizeof(Hash));
 
 	th->posOverflow = 0;
 	th->tableSize = tamTable;
@@ -28,14 +28,14 @@ THash * newTHash(int tamTable, int tamOverflow) {
     return th;
 }
 
-int hash(THash * th, int key) {
+int hash(Hash * th, int key) {
     return key % th->tableSize;
 }
 
 // return the position where the item
 // has been inserted
 // return -1 if could not insert
-int inserir(THash * th, int item) {
+int inserir(Hash * th, int item) {
     int posInsercao = -1;
     int pos = hash(th, item);
     int *p = (int *) malloc(sizeof(int));
@@ -60,7 +60,7 @@ int inserir(THash * th, int item) {
 }
 
 // remove item using its position
-int removerPos(THash * th, int key) {
+int removerPos(Hash * th, int key) {
     int removed = -9999;
 
     // is key valid?
@@ -97,7 +97,7 @@ int removerPos(THash * th, int key) {
 }
 
 // remove item -> return its position 
-int removerItem(THash * th, int item) {
+int removerItem(Hash * th, int item) {
     int posRemovido = -1;
     int posItem = hash(th, item);
     if (*(th->thash[posItem]) == item) {
@@ -138,7 +138,7 @@ int removerItem(THash * th, int item) {
     return posRemovido;
 }
 
-void mostrar(THash * th) {
+void mostrar(Hash * th) {
     printf("\nÁrea principal: [ ");
     for (int i = 0; i < th->tableSize; i++) 
         printf("%d ", (th->thash[i] == NULL) ? -1 : *(th->thash[i]));
@@ -151,7 +151,7 @@ void mostrar(THash * th) {
 }
 
 int main() {
-	THash * th = newTHash(7, 5);
+	Hash * th = newHash(7, 5);
     inserir(th, 10);
     inserir(th, 30);
     mostrar(th);
