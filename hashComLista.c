@@ -1,3 +1,8 @@
+/**************************************************
+**                 Hash com Lista                **
+**                dinamica simples               **
+**************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,7 +13,7 @@ typedef struct Celula {
     int item;
 } Celula;
 
-typedef struct Lista {
+typedef struct lista {
     Celula * primeiro, * ultimo;
     int qtd;
 } Lista;

@@ -2,41 +2,56 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#define TAM 7
-#define REALSIZE (TAM+5)
 
-int reserva = 0;
+typedef struct THash {
+	int tableSize;
+	int overflowSize;
+	int realSize;
+	int posOverflow; // control insertions in overflow area
+	int ** thash;
+} THash;
 
-int ** makeTable() {
-    int **thash = (int **) malloc(sizeof(int *) * REALSIZE);
-    for (int i = 0; i < REALSIZE; i++) {
-        thash[i] = NULL;
+THash * newTHash(int tamTable, int tamOverflow) {
+	THash * th = (THash *) malloc(sizeof(THash));
+
+	th->posOverflow = 0;
+	th->tableSize = tamTable;
+	th->overflowSize = tamOverflow;
+	th->realSize = tamTable + tamOverflow;
+
+    th->thash = (int **) malloc(sizeof(int *) * th->realSize);
+
+    for (int i = 0; i < th->realSize; i++) {
+        th->thash[i] = NULL;
     }
-    return thash;
+
+    return th;
 }
 
-int hash(int key) {
-    return key % TAM;
+int hash(THash * th, int key) {
+    return key % th->tableSize;
 }
 
 // return the position where the item
 // has been inserted
 // return -1 if could not insert
-int inserir(int **thash, int item) {
+int inserir(THash * th, int item) {
     int posInsercao = -1;
-    int pos = hash(item);
+    int pos = hash(th, item);
     int *p = (int *) malloc(sizeof(int));
     *p = item;
-    if (thash[pos] == NULL) {
-        thash[pos] = p;
+    if (th->thash[pos] == NULL) {
+        th->thash[pos] = p;
         posInsercao = pos;
     } else {
-        if (reserva < (REALSIZE - TAM)) {
-            int posReserva = TAM + reserva++;
-            thash[posReserva] = p; 
+		// check if there is space to insert something
+		// in the overflow area
+        if (th->posOverflow < (th->realSize - th->tableSize)) {
+            int posReserva = th->tableSize + th->posOverflow++;
+            th->thash[posReserva] = p; 
             posInsercao = posReserva;
         } else {
-            printf("Area reserva cheia!\n");
+            printf("Area de reserva cheia!\n");
             free(p);
         }
     }
@@ -45,31 +60,35 @@ int inserir(int **thash, int item) {
 }
 
 // remove item using its position
-int removerPos(int **thash, int key) {
+int removerPos(THash * th, int key) {
     int removed = -9999;
 
     // is key valid?
-    if (key < 0 || key >= REALSIZE) {
-        printf("Chave de procura invalida.\n");
+    if (key < 0 || key >= th->realSize) {
+        printf("Chave de procura invalida. Chave: %d\n", key);
     } else {
         // if there is something in the position
-        if (thash[key] != NULL) {
-            removed = *thash[key];
+        if (th->thash[key] != NULL) {
+            removed = *th->thash[key];
             bool hasSubstitute = false;
-            for (int i = 0; i < reserva && !hasSubstitute; i++) {
-                if (hash(*thash[i + TAM]) == key) {
+			// search for a substitute that has
+			// the same hash of the item
+            for (int i = 0; i < th->posOverflow && !hasSubstitute; i++) {
+                if (hash(th, *th->thash[i + th->tableSize]) == key) {
                     hasSubstitute = true;
-                    *thash[key] = *thash[i + TAM];
-                    if (reserva > 0)
-                        reserva--;
-                    *thash[i + TAM] = *thash[TAM + reserva];
-                    free(thash[TAM + reserva]);
-                    thash[TAM + reserva] = NULL;
+                    *(th->thash[key]) = *(th->thash[i + th->tableSize]);
+                    if (th->posOverflow > 0)
+                        th->posOverflow--;
+                    *(th->thash[i + th->tableSize]) = *(th->thash[th->tableSize + th->posOverflow]);
+                    free(th->thash[th->tableSize + th->posOverflow]);
+                    th->thash[th->tableSize + th->posOverflow] = NULL;
                 }
             }
+			// if there is no substitute,
+			// just remove the item
             if (!hasSubstitute) {
-                free(thash[key]);
-                thash[key] = NULL;
+                free(th->thash[key]);
+                th->thash[key] = NULL;
             }
         }
     }
@@ -78,80 +97,79 @@ int removerPos(int **thash, int key) {
 }
 
 // remove item -> return its position 
-int removerItem(int **thash, int item) {
+int removerItem(THash * th, int item) {
     int posRemovido = -1;
-    int posItem = hash(item);
-    if (*thash[posItem] == item) {
+    int posItem = hash(th, item);
+    if (*(th->thash[posItem]) == item) {
         posRemovido = posItem;
         bool hasSubstitute = false;
-        for (int i = 0; i < reserva && !hasSubstitute; i++) {
-            // if any item has the same hash
-            // as the item to be removed
-            if (hash(*thash[i + TAM]) == posItem) {
+        for (int i = 0; i < th->posOverflow && !hasSubstitute; i++) {
+            if (hash(th, *(th->thash[i + th->tableSize])) == posItem) {
                 hasSubstitute = true;
-                *thash[posItem] = *thash[i + TAM];
-                if (reserva > 0)
-                    reserva--;
-                *thash[i + TAM] = *thash[TAM + reserva];
-                free(thash[TAM + reserva]);
-                thash[TAM + reserva] = NULL;
+                *(th->thash[posItem]) = *(th->thash[i + th->tableSize]);
+                if (th->posOverflow > 0)
+                    th->posOverflow--;
+                *(th->thash[i + th->tableSize]) = *(th->thash[th->tableSize + th->posOverflow]);
+                free(th->thash[th->tableSize + th->posOverflow]);
+                th->thash[th->tableSize + th->posOverflow] = NULL;
             }
         }
         if (!hasSubstitute) {
-            free(thash[posItem]);
-            thash[posItem] = NULL;
+            free(th->thash[posItem]);
+            th->thash[posItem] = NULL;
         }
     } else {
         // searching in the overflow area
-        for (int i = 0; i < reserva; i++) {
-            if (*thash[i + TAM] == item) {
-                posRemovido = i + TAM;
-                // if reserva > 0, the position of
+        for (int i = 0; i < th->posOverflow; i++) {
+            if (*(th->thash[i + th->tableSize]) == item) {
+                posRemovido = i + th->tableSize;
+                // if th->posOverflow > 0, the position of
                 // the last item in overflow area
-                // is TAM + reserva - 1
-                if (reserva > 0)
-                    reserva--;
-                *thash[i + TAM] = *thash[TAM + reserva];
-                free(thash[TAM + reserva]);
-                thash[TAM + reserva] = NULL;
-                i = reserva;
+                // is th->tableSize + th->posOverflow - 1
+                if (th->posOverflow > 0)
+                    th->posOverflow--;
+                *(th->thash[i + th->tableSize]) = *(th->thash[th->tableSize + th->posOverflow]);
+                free(th->thash[th->tableSize + th->posOverflow]);
+                th->thash[th->tableSize + th->posOverflow] = NULL;
+                i = th->posOverflow;
             }
         }
     }
     return posRemovido;
 }
 
-void mostrar(int **thash) {
-    printf("Área principal: [ ");
-    for (int i = 0; i < TAM; i++) 
-        printf("%d ", (thash[i] == NULL) ? -1 : *thash[i]);
+void mostrar(THash * th) {
+    printf("\nÁrea principal: [ ");
+    for (int i = 0; i < th->tableSize; i++) 
+        printf("%d ", (th->thash[i] == NULL) ? -1 : *(th->thash[i]));
     printf("]\n");
     
     printf("Área de reserva: [ ");
-    for (int i = 0; i < (REALSIZE - TAM); i++) 
-        printf("%d ", (thash[i + TAM] == NULL) ? -1 : *thash[i + TAM]);
+    for (int i = 0; i < th->overflowSize; i++) 
+        printf("%d ", (th->thash[i + th->tableSize] == NULL) ? -1 : *(th->thash[i + th->tableSize]));
     printf("]\n\n");
 }
 
 int main() {
-    int **thash = makeTable();
-    inserir(thash, 10);
-    inserir(thash, 30);
-    mostrar(thash);
-    inserir(thash, 20);
-    inserir(thash, 21);
-    inserir(thash, 14);
-    inserir(thash, 45);
-    inserir(thash, 35);
-    inserir(thash, 4);
-    inserir(thash, 12);
-    inserir(thash, 1);
-    mostrar(thash);
-    printf("Posicao removido: %d\n", removerItem(thash, 21));
+	THash * th = newTHash(7, 5);
+    inserir(th, 10);
+    inserir(th, 30);
+    mostrar(th);
+    inserir(th, 20);
+    inserir(th, 21);
+    inserir(th, 14);
+    inserir(th, 45);
+    inserir(th, 35);
+    inserir(th, 4);
+    inserir(th, 12);
+    inserir(th, 1);
+    mostrar(th);
+    printf("Posicao removido: %d\n", removerItem(th, 21));
     printf("apos remocao do 21: \n");
-    mostrar(thash);
-    printf("Posicao removido: %d\n", removerItem(thash, 45));
+    mostrar(th);
+    printf("Posicao removido: %d\n", removerItem(th, 45));
     printf("apos remocao do 45: \n");
-    printf("Item removido: %d\n", removerPos(thash, 30));
-    mostrar(thash);
+    mostrar(th);
+    printf("Item removido: %d\n", removerPos(th, 30));
+    mostrar(th);
 }
