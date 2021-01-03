@@ -50,90 +50,73 @@ Lista * newLista() {
     return lista;
 }
 
-bool inserirNoFim(Lista * lista, int item) {
-    bool inseriuComSucesso = false;
-    Celula * c = newCelula2(item);
-    // lista vazia
-    if (lista->primeiro == lista->ultimo) 
-        lista->primeiro->prox = c;
-    
-    lista->ultimo->prox = c;
-    lista->ultimo = c;
-    lista->qtd++;
-    inseriuComSucesso = true;
-    c = NULL;
-    return inseriuComSucesso;
+bool isVazia(Lista * lista) {
+	return lista->primeiro == lista->ultimo;
 }
 
 bool inserirNoInicio(Lista * lista, int item) {
-    bool inseriuComSucesso = false;
+    bool deuCerto = false;
     Celula * c = newCelula2(item);
-    // lista vazia
-    if (lista->primeiro == lista->ultimo) 
+    if (isVazia(lista)) {
         lista->ultimo = c;
-    
+    }
     c->prox = lista->primeiro->prox;
     lista->primeiro->prox = c;
-    lista->qtd++;
-    inseriuComSucesso = true;
     c = NULL;
-    return inseriuComSucesso;
+    deuCerto = true;
+    lista->qtd++;
+    return deuCerto;
+}
+
+bool inserirNoFim(Lista * lista, int item) {
+    bool deuCerto = false;
+    Celula * c = newCelula2(item);
+    if (isVazia(lista)) {
+        lista->primeiro->prox = c;
+    }
+    lista->ultimo->prox = c;
+    lista->ultimo = c;
+    c = NULL;
+    deuCerto = true;
+    lista->qtd++;
+    return deuCerto;
 }
 
 bool inserirNaPos(Lista * lista, int item, int pos) {
-    bool inseriuComSucesso = false;
-    if (pos < 0 || pos > lista->qtd) {
-        printf("Posicao de insercao invalida.\n");
-    } else {
-        Celula * c = newCelula2(item);
+    bool deuCerto = false;
+    if (pos >= 0 && pos <= lista->qtd) {
         if (pos == 0) {
-            inseriuComSucesso = inserirNoInicio(lista, item);
+            deuCerto = inserirNoInicio(lista, item);
         } else if (pos == lista->qtd) {
-            inseriuComSucesso = inserirNoFim(lista, item);
+            deuCerto = inserirNoFim(lista, item);
         } else {
+            Celula * c = newCelula2(item);
             Celula * tmp = lista->primeiro->prox;
-            for (int i = 0; i < pos-1; i++) 
-                tmp = tmp->prox;    
+            for (int cont = 1; cont < pos; cont++) {
+                tmp = tmp->prox;
+            }
             c->prox = tmp->prox;
             tmp->prox = c;
             tmp = NULL;
-            inseriuComSucesso = true;
+            c = NULL;
         }
-        c = NULL;
         lista->qtd++;
+    } else {
+        printf("Posição de inserção inválida.\n");
     }
-    return inseriuComSucesso;
+    return deuCerto;
 }
 
 int removerDoInicio(Lista * lista) {
     int removido = -9999;
-    if (lista->primeiro == lista->ultimo) {
+    if (isVazia(lista)) {
         printf("Lista vazia!\n");
     } else {
-        Celula * tmp = lista->primeiro->prox;
-        lista->primeiro->prox = lista->primeiro->prox->prox;    
-        removido = tmp->item;
-        printf("removido: %d\n", removido);
-        tmp->prox = NULL;
-        free(tmp);
-        tmp = NULL;
-        lista->qtd--;
-    }
-    return removido;
-}
-
-int removerDoFim(Lista * lista) {
-    int removido = -9999;
-    if (lista->primeiro == lista->ultimo) {
-        printf("Lista vazia!\n");
-    } else {
-        Celula * tmp;
-        for (tmp = lista->primeiro; tmp->prox != lista->ultimo; tmp = tmp->prox); 
-        removido = tmp->prox->item;
-        lista->ultimo = tmp;
-        lista->ultimo->prox = NULL;
-        free(tmp->prox);
-        tmp = NULL;
+        Celula * c = lista->primeiro;
+        lista->primeiro = lista->primeiro->prox;
+        free(c);
+        removido = lista->primeiro->item;
+        c = NULL;
         lista->qtd--;
     }
     return removido;
@@ -141,25 +124,44 @@ int removerDoFim(Lista * lista) {
 
 int removerDaPos(Lista * lista, int pos) {
     int removido = -9999;
-    if (pos < 0 || pos >= lista->qtd) {
-        printf("Posicao de remocao invalida.\n");
-    } else if (pos == 0) {
-        removido = removerDoInicio(lista);
-        lista->qtd--;
-    } else if (pos == lista->qtd - 1) {
-        removido = removerDoFim(lista);
-        lista->qtd--;
+    if (isVazia(lista)) {
+        printf("Lista vazia!\n");
     } else {
-        int cont = 1;
-        Celula * c;
-        for (c = lista->primeiro->prox; cont < pos; c = c->prox, cont++);
+        if (pos >= 0 && pos < lista->qtd) {
+            Celula * c = lista->primeiro;
+            for (int cont = 0; cont < pos; cont++) {
+                c = c->prox;
+            }
+            Celula * tmp = c->prox;
+            c->prox = tmp->prox;
+            removido = tmp->item;
+            free(tmp);
+            tmp = NULL;
+            c = NULL;
+            lista->qtd--;
+        } else {
+            printf("Posição de remoção inválida.\n");
+        }
+    }
+    return removido;
+}
+
+int removerDoFim(Lista * lista) {
+    int removido = -9999;
+    if (isVazia(lista)) {
+        printf("Lista vazia!\n");
+    } else {
+        Celula * c = lista->primeiro;
+        while (c->prox != lista->ultimo) {
+            c = c->prox;
+        }
         Celula * tmp = c->prox;
+        c->prox = NULL;
+        lista->ultimo = c;
         removido = tmp->item;
-        c->prox = tmp->prox;
-        tmp->prox = NULL;
         free(tmp);
-        c = NULL;
         tmp = NULL;
+        c = NULL;
         lista->qtd--;
     }
     return removido;
