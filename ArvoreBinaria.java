@@ -13,6 +13,8 @@ class No {
     }
 }
 
+// -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+
 class ArvoreBinaria {
     private No raiz;
 
@@ -103,6 +105,7 @@ class ArvoreBinaria {
     }
 
     public void mostrarPreOrdem() {
+        System.out.print("PRE-ORDEM: ");
         System.out.print("[ ");
         mostrarPreOrdem(raiz);
         System.out.println("]");
@@ -117,6 +120,7 @@ class ArvoreBinaria {
     }
 
     public void mostrarEmOrdemCrescente() {
+        System.out.print("EM-ORDEM: ");
         System.out.print("[ ");
         mostrarEmOrdemCrescente(raiz);
         System.out.println("]");
@@ -131,6 +135,7 @@ class ArvoreBinaria {
     }
 
     public void mostrarPosOrdem() {
+        System.out.print("POS-ORDEM: ");
         System.out.print("[ ");
         mostrarPosOrdem(raiz);
         System.out.println("]");
@@ -143,34 +148,29 @@ class ArvoreBinaria {
             System.out.print(noAtual.item+" ");
         }
     }
+
+	public void mostrarTodasOrdens() {
+		System.out.println();
+        mostrarPreOrdem();
+        mostrarEmOrdemCrescente();
+        mostrarPosOrdem();
+	}
 }
+
+// -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 
 class Main {
     public static void main(String[] args) {
         ArvoreBinaria ab = new ArvoreBinaria();
 
-        ab.inserir(10);
-        ab.inserir(3);
-        ab.inserir(5);
-        ab.inserir(1);
-        ab.inserir(11);
-        ab.inserir(9);
-        ab.inserir(8);
-
-        System.out.println("PRE-ORDEM: ");
-        ab.mostrarPreOrdem();
-        System.out.println("EM-ORDEM: ");
-        ab.mostrarEmOrdemCrescente();
-        System.out.println("POS-ORDEM: ");
-        ab.mostrarPosOrdem();
+		int[] aInserir = {5, 2, 9, 4, 8, 3, 6, 10};
+		for (int i = 0; i < aInserir.length; i++)
+			ab.inserir(aInserir[i]);
+		
+		ab.mostrarTodasOrdens();
 
         ab.remover(10);
 
-        System.out.println("PRE-ORDEM: ");
-        ab.mostrarPreOrdem();
-        System.out.println("EM-ORDEM: ");
-        ab.mostrarEmOrdemCrescente();
-        System.out.println("POS-ORDEM: ");
-        ab.mostrarPosOrdem();
+		ab.mostrarTodasOrdens();
     }
 }
