@@ -76,6 +76,10 @@ public class Hash {
     // -1 if not found
     public int remove(Object toBeRemoved) {
         int pos = -1;
+		if (toBeRemoved == null) {
+			System.out.println("Objeto inválido.");
+			return pos;
+		}
         int pRemotion = hash(toBeRemoved);
         // found in the main area
         if (htable[pRemotion] != null && ((int)htable[pRemotion] == (int)toBeRemoved)) {
@@ -99,11 +103,12 @@ public class Hash {
         } else {
             // not found in main area -> search in the overflow area
             for (int i = 0; i < posOverflow; i++) {
-                if ((int)htable[i + tableSize] == (int)toBeRemoved) {
+                if (htable[i + tableSize] != null && ((int)htable[i + tableSize] == (int)toBeRemoved)) {
                     pos = i + tableSize;
                     if (posOverflow > 0)
                         posOverflow--;
-                    htable[i + tableSize] = htable[posOverflow];
+					int ultimo = (int)htable[posOverflow];
+                    htable[i + tableSize] = (Object) ultimo;
                     htable[posOverflow] = null;
                     i = posOverflow;
                 }
@@ -133,7 +138,8 @@ public class Hash {
                     htable[key] = htable[i + tableSize];
                     if (posOverflow > 0) 
                         posOverflow--;
-                    htable[i + tableSize] = htable[posOverflow];
+					int ultimo = (int)htable[posOverflow];
+                    htable[i + tableSize] = (Object) ultimo;
                     htable[posOverflow] = null;
                 }
             }
@@ -153,7 +159,7 @@ public class Hash {
         }
         System.out.println("]\n");
         System.out.println("Área de reserva: [");
-        for (int i = 0; i < (realsize - overflowSize); i++) {
+        for (int i = 0; i < (realsize - tableSize); i++) {
             if (htable[i + tableSize] != null)
 				System.out.print("    Índice "+(i+tableSize)+":  "+(int)htable[tableSize + i] + "\n");
             else
