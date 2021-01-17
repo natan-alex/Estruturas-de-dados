@@ -14,23 +14,23 @@ public class Hash {
     }
 
     public Hash(int tableSize, int overflowSize) {
-		// if the size is invalid, both will 
-		// have the value of 10
-		if (isSizeValid(tableSize))
+		// the size that is invalid will assume
+		// the value of 10
+		if (isSizeValid(tableSize)) {
 			this.tableSize = tableSize;
-		else {
+		} else {
 			System.out.println("Tamanho de área principal inválido. Assumindo o valor 10.");
 			this.tableSize = 10;
 		}
 
-		if (isSizeValid(overflowSize))
+		if (isSizeValid(overflowSize)) {
 			this.overflowSize = overflowSize;
-		else {
+		} else {
 			System.out.println("Tamanho de área reserva inválido. Assumindo o valor 10.");
 			this.overflowSize = 10;
 		}
 
-        realsize = tableSize + overflowSize;
+        realsize = this.tableSize + this.overflowSize;
         posOverflow = 0;
         htable = new Object[realsize];
 
