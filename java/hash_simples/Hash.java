@@ -164,7 +164,7 @@ public class Hash {
         }
         System.out.println("]\n");
         System.out.println("Área de reserva: [");
-        for (int i = 0; i < (realsize - tableSize); i++) {
+        for (int i = 0; i < posOverflow; i++) {
             if (htable[i + tableSize] != null)
 				System.out.print("    Índice "+(i+tableSize)+":  "+(int)htable[tableSize + i] + "\n");
             else
