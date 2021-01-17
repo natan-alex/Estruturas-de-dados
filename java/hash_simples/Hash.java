@@ -135,7 +135,10 @@ public class Hash {
         System.out.println("]\n");
         System.out.println("Área de reserva: [");
         for (int i = 0; i < posOverflow; i++) {
-            System.out.print("    Índice "+(i+tableSize)+":  "+(int)htable[tableSize + i] + "\n");
+            if (htable[i + tableSize] != null)
+				System.out.print("    Índice "+(i+tableSize)+":  "+(int)htable[tableSize + i] + "\n");
+            else
+                System.out.println("    Índice "+(i+tableSize)+":  vazio");
         }
         System.out.println("]\n");
     }
