@@ -68,8 +68,12 @@ public class Hash {
     }
 
 	public void insertList(List<Integer> lista) {
-		for (int item : lista) 
-			insert((Object) item);
+		int retorno = -1;
+		for (int item : lista) {
+			retorno = insert((Object) item);
+			if (retorno >= 0)
+				System.out.println("Item "+item+" inserido com sucesso.");
+		}
 	}
 
     // return the position of the removed element
@@ -121,7 +125,7 @@ public class Hash {
 
     // return the removed item
     // null if not found or if the key is invalid
-    public Object remove(int key) {
+    public Object removeFromPosition(int key) {
         if (key < 0 || key >= realsize) {
             System.out.println("Chave de remoção inválida.");
             return null;

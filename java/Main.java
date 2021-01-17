@@ -108,8 +108,8 @@ public class Main {
 				case 1:
 					System.out.print("Item a ser inserido: ");
 					item = input.nextInt();
-					hash.insert(item);
-					System.out.println("Item inserido.");
+					if (hash.insert(item) >= 0)
+						System.out.println("Item inserido com sucesso. ");
 					break;
 				case 2:
 					int cont = 1;
@@ -121,7 +121,6 @@ public class Main {
 					} while (continuar() != 'n');
 					hash.insertList(lista);
 					lista.clear();
-					System.out.println("Itens inseridos.");
 					break;
 				case 3:
 					System.out.print("Item a ser removido: ");
@@ -129,19 +128,25 @@ public class Main {
 					pos = hash.remove((Object) item);
 					if (pos >= 0) 
 						System.out.println("Item removido da posição "+pos);
+					else 
+						System.out.println("Falha ao remover item.");
 					break;
 				case 4:
 					System.out.print("Posição do item a ser removido: ");
 					pos = input.nextInt();
-					Object removido = hash.remove(pos);
+					Object removido = hash.removeFromPosition(pos);
 					if (removido != null)
 						System.out.println("Item removido: "+(int) removido);
+					else 
+						System.out.println("Falha ao remover na posição especificada.");
 					break;
 				case 5:
 					System.out.print("Item a ser pesquisado: ");
 					item = input.nextInt();
 					if (hash.search((Object) item))
 						System.out.println("Item encontrado."); 
+					else 
+						System.out.println("Item não encontrado.");
 					break;
 				case 6:
 					System.out.print("Item a ser pesquisado: ");
@@ -149,6 +154,8 @@ public class Main {
 					pos = hash.searchPos((Object) item);
 					if (pos >= 0)
 						System.out.println("Item encontrado na posição "+pos); 
+					else 
+						System.out.println("Item não encontrado.");
 					break;
 				case 7:
 					System.out.println("Itens: ");
