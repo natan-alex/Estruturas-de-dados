@@ -85,7 +85,6 @@ public class Hash {
 			return pos;
 		}
         int pRemotion = hash(toBeRemoved);
-		System.out.println("hash de "+(int)toBeRemoved+": "+pRemotion);
         // found in the main area
         if (htable[pRemotion] != null && ((int)htable[pRemotion] == (int)toBeRemoved)) {
             pos = pRemotion;
@@ -94,6 +93,7 @@ public class Hash {
             // with the item in the overflow area
             // with the same hash 
             for (int i = 0; i < posOverflow && !hasSubstitute; i++) {
+				System.out.println("hash htable["+(i+tableSize)+": "+hash(htable[i + tableSize]));
                 if (hash(htable[i + tableSize]) == pRemotion) {
                     hasSubstitute = true;
                     htable[pRemotion] = htable[i + tableSize];
@@ -112,7 +112,6 @@ public class Hash {
                     pos = i + tableSize;
                     if (posOverflow > 0)
                         posOverflow--;
-					System.out.println("posOverflow: " + posOverflow);
 					int ultimo = (int)htable[tableSize + posOverflow];
                     htable[i + tableSize] = (Object) ultimo;
                     htable[tableSize + posOverflow] = null;
