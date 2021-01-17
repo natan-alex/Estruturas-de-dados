@@ -4,12 +4,12 @@ import java.util.Scanner;
 
 class Main {
 	private static Scanner input = new Scanner(System.in);
-	public static void cleanBuffer() {
-		String s = "";
-		if (input.hasNext()) {
-			s = input.nextLine();
-		}
-	}
+
+	// public static void cleanBuffer() {
+	// 	if (input.hasNext()) {
+	// 		String s = input.nextLine();
+	// 	}
+	// }
 
 	public static char continuar() {
 		char opcao;
@@ -18,8 +18,7 @@ class Main {
 			System.out.println("[s] - sim");
 			System.out.println("[n] - não");
 			System.out.print("Opção: ");
-			cleanBuffer();
-			opcao = input.nextLine().charAt(0);
+			opcao = input.next().charAt(0);
 			opcao = Character.toLowerCase(opcao);
 		} while (opcao != 's' && opcao != 'n');
 		return opcao;

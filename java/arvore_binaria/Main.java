@@ -5,12 +5,12 @@ import java.util.Scanner;
 public class Main {
 	private static Scanner input = new Scanner(System.in);
 
-	public static void cleanBuffer() {
-		String s = "";
-		if (input.hasNext()) {
-			s = input.nextLine();
-		}
-	}
+	// public static void cleanBuffer() {
+	// 	String s = "";
+	// 	if (input.hasNext()) {
+	// 		s = input.nextLine();
+	// 	}
+	// }
 
 	public static char continuar() {
 		char opcao;
@@ -19,8 +19,7 @@ public class Main {
 			System.out.println("[s] - sim");
 			System.out.println("[n] - não");
 			System.out.print("Opção: ");
-			cleanBuffer();
-			opcao = input.nextLine().charAt(0);
+			opcao = input.next().charAt(0);
 			opcao = Character.toLowerCase(opcao);
 		} while (opcao != 's' && opcao != 'n');
 		return opcao;
@@ -79,6 +78,9 @@ public class Main {
 					break;
 				case 7:
 					arvore.mostrarTodasOrdens();
+					break;
+				case 0:
+					System.out.println("Encerrado.");
 					break;
 				default:
 					System.out.println("Opção inválida.");
