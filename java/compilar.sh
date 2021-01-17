@@ -14,16 +14,16 @@ if [ $# -eq 0 ]; then
 	echo "limpar, Limpar, clean"
 else
 	if [ $1 == "arvore" ] || [ $1 == "ArvoreBinaria" ]; then
-		javac -d . arvore_binaria/*.java
+		javac -d . arvore_binaria/*.java Main.java
 		java Main
 	elif [ $1 == "hash" ] || [ $1 == "Hash" ]; then
-		javac -d . hash/*.java
+		javac -d . hash/*.java Main.java
 		java Main
 	elif [ $1 == "matriz" ] || [ $1 == "Matriz" ]; then
-		javac -d . matriz_dinamica/*.java
+		javac -d . matriz_dinamica/*.java Main.java
 		java Main
 	elif [ $1 == "pilha" ] || [ $1 == "Pilha" ] || [ $1 == "PilhaDinamica" ]; then
-		javac -d . pilha_dinamica/*.java
+		javac -d . pilha_dinamica/*.java Main.java
 		java Main
 	elif [ $1 == "limpar" ] || [ $1 == "Limpar" ] || [ $1 == "clean" ]; then
 		clean
