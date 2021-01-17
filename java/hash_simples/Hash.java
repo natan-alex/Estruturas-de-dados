@@ -93,7 +93,6 @@ public class Hash {
             // with the item in the overflow area
             // with the same hash 
             for (int i = 0; i < posOverflow && !hasSubstitute; i++) {
-				System.out.println("hash htable["+(i+tableSize)+": "+hash(htable[i + tableSize]));
                 if (hash(htable[i + tableSize]) == pRemotion) {
                     hasSubstitute = true;
                     htable[pRemotion] = htable[i + tableSize];
