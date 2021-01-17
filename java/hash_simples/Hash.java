@@ -81,6 +81,7 @@ public class Hash {
 			return pos;
 		}
         int pRemotion = hash(toBeRemoved);
+		System.out.println("hash de "+(int)toBeRemoved+": "+pRemotion);
         // found in the main area
         if (htable[pRemotion] != null && ((int)htable[pRemotion] == (int)toBeRemoved)) {
             pos = pRemotion;
@@ -107,10 +108,11 @@ public class Hash {
                     pos = i + tableSize;
                     if (posOverflow > 0)
                         posOverflow--;
-					int ultimo = (int)htable[posOverflow];
+					System.out.println("posOverflow: " + posOverflow);
+					int ultimo = (int)htable[tableSize + posOverflow];
                     htable[i + tableSize] = (Object) ultimo;
-                    htable[posOverflow] = null;
-                    i = posOverflow;
+                    htable[tableSize + posOverflow] = null;
+                    i = posOverflow + 1;
                 }
             }
         }
@@ -138,9 +140,10 @@ public class Hash {
                     htable[key] = htable[i + tableSize];
                     if (posOverflow > 0) 
                         posOverflow--;
-					int ultimo = (int)htable[posOverflow];
+					int ultimo = (int)htable[tableSize + posOverflow];
                     htable[i + tableSize] = (Object) ultimo;
-                    htable[posOverflow] = null;
+                    htable[tableSize + posOverflow] = null;
+                    i = posOverflow + 1;
                 }
             }
 			if (!hasSubstitute)
