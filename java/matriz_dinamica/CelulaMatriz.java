@@ -1,3 +1,5 @@
+package matriz_dinamica;
+
 public class CelulaMatriz {
     public int item;
     public CelulaMatriz inf, sup, esq, dir;

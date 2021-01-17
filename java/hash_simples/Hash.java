@@ -1,3 +1,5 @@
+package hash_simples;
+
 import java.util.List;
 
 public class Hash {
@@ -40,7 +42,7 @@ public class Hash {
                 posReturn = tableSize + posOverflow;
                 posOverflow++;
             } else {
-                System.out.print("Área de reserva cheia! Falha ao inserir "+(int)item);
+                System.out.println("Área de reserva cheia! Falha ao inserir "+(int)item);
             }
         }
         return posReturn;
@@ -57,8 +59,9 @@ public class Hash {
         int pos = -1;
         int pRemotion = hash(toBeRemoved);
         // found in the main area
-        if ((int)htable[pRemotion] == (int)toBeRemoved) {
+        if (htable[pRemotion] != null && ((int)htable[pRemotion] == (int)toBeRemoved)) {
             pos = pRemotion;
+			htable[pRemotion] = null;
             boolean hasSubstitute = false;
             // change the item in the main area
             // with the item in the overflow area
@@ -90,16 +93,17 @@ public class Hash {
     }
 
     // return the removed item
-    // null if not found
+    // null if not found or if the key is invalid
     public Object remove(int key) {
         if (key < 0 || key >= realsize) {
-            System.out.println("Chave de remocao invalida.");
+            System.out.println("Chave de remoção inválida.");
             return null;
         }
-
         Object removed = null;
+		// if there is something in the position
         if (htable[key] != null) {
             removed = htable[key];
+			htable[key] = null;
             boolean hasSubstitute = false;
             // again, put in the main area
             // the item with the same hash coming
@@ -121,16 +125,15 @@ public class Hash {
     public void showItens() {
         System.out.println("\nÁrea principal: [");
         for (int i = 0; i < tableSize; i++) {
-            System.out.print("\t");
             if (htable[i] != null)
-                System.out.println((int)htable[i]);
+                System.out.println("    Índice "+i+":  "+(int)htable[i]);
             else
-                System.out.println("null");
+                System.out.println("    Índice "+i+":  vazio");
         }
         System.out.println("]\n");
         System.out.println("Área de reserva: [");
         for (int i = 0; i < posOverflow; i++) {
-            System.out.print("\t"+(int)htable[tableSize + i] + "\n");
+            System.out.print("    Índice "+i+":  "+(int)htable[tableSize + i] + "\n");
         }
         System.out.println("]\n");
     }
@@ -138,10 +141,10 @@ public class Hash {
     public boolean search(Object obj) {
         boolean retorno = false;
         if (obj == null) {
-            System.out.println("Item não encontrado.");
+            System.out.println("Objeto inválido.");
         } else {
             int hashJ = hash(obj);
-            if ((int)htable[hashJ] == (int)obj) {
+            if (htable[hashJ] != null && ((int)htable[hashJ] == (int)obj)) {
                 retorno = true;
             } else {
                 // searching on overflow 
@@ -160,10 +163,10 @@ public class Hash {
     public int searchPos(Object obj) {
         int pos = -1;
         if (obj == null) {
-            System.out.println("Item não encontrado.");
+            System.out.println("Objeto inválido.");
         } else {
             int hashJ = hash(obj);
-            if ((int)htable[hashJ] == (int)obj) {
+            if (htable[hashJ] != null && ((int)htable[hashJ] == (int)obj)) {
                 pos = hashJ;
             } else {
                 // searching in overflow area

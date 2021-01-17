@@ -1,3 +1,5 @@
+package arvore_binaria;
+
 import java.util.List;
 
 public class ArvoreBinaria {

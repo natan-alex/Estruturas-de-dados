@@ -1,3 +1,5 @@
+package pilha_dinamica;
+
 public class CelulaPilha {
     public int item;
     public CelulaPilha prox;

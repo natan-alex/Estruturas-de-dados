@@ -1,3 +1,5 @@
+package matriz_dinamica;
+
 public class MatrizDinamica {
     private CelulaMatriz inicio;
     private int linhas, colunas;

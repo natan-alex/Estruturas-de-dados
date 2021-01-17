@@ -1,3 +1,5 @@
+package arvore_binaria;
+
 public class No {
     public No esq, dir;
     public int item;

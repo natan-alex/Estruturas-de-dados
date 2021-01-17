@@ -2,16 +2,14 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
-	private static Scanner input = new Scanner(System.in);
-	private static List<Integer> lista = new ArrayList<>();
+import arvore_binaria.ArvoreBinaria;
+import hash_simples.Hash;
+import pilha_dinamica.PilhaDinamica;
+import matriz_dinamica.MatrizDinamica;
 
-	// public static void cleanBuffer() {
-	// 	String s = "";
-	// 	if (input.hasNext()) {
-	// 		s = input.nextLine();
-	// 	}
-	// }
+public class Main {
+	private static Scanner input;
+	private static List<Integer> lista; 
 
 	public static char continuar() {
 		char opcao;
@@ -28,10 +26,9 @@ public class Main {
 
 	public static void menuArvore() {
 		ArvoreBinaria arvore = new ArvoreBinaria();
-		int opcao;
-		int item;
+		int opcao, item;
 		do {
-			System.out.println("MENU");
+			System.out.println("\n\tMENU => ARVORE BINARIA DE PESQUISA");
 			System.out.println("[1] - inserir um item");
 			System.out.println("[2] - inserir vários itens");
 			System.out.println("[3] - remover item da árvore");
@@ -65,7 +62,6 @@ public class Main {
 					System.out.print("Item a ser removido: ");
 					item = input.nextInt();
 					arvore.remover(item);
-					System.out.println("Item removido.");
 					break;
 				case 4:
 					arvore.mostrarPreOrdem();
@@ -90,14 +86,14 @@ public class Main {
 	}
 
 	public static void menuHash() {
-		System.out.println("Tamanho da área principal da tabela: ");
+		System.out.print("Tamanho da área principal da tabela: ");
 		int tam = input.nextInt();
-		System.out.println("Tamanho da área de reserva da tabela: ");
+		System.out.print("Tamanho da área de reserva da tabela: ");
 		int tamReserva = input.nextInt();
 		Hash hash = new Hash(tam, tamReserva);
 		int opcao, item, pos;
 		do {
-			System.out.println("MENU");
+			System.out.println("\n\tMENU: HASH SIMPLES");
 			System.out.println("[1] - inserir um item");
 			System.out.println("[2] - inserir vários itens");
 			System.out.println("[3] - remover um item específico");
@@ -142,17 +138,17 @@ public class Main {
 						System.out.println("Item removido: "+(int) removido);
 					break;
 				case 5:
-					System.out.println("Item a ser pesquisado: ");
+					System.out.print("Item a ser pesquisado: ");
 					item = input.nextInt();
 					if (hash.search((Object) item))
-						System.out.println("Item encontrado"); 
+						System.out.println("Item encontrado."); 
 					break;
 				case 6:
-					System.out.println("Item a ser pesquisado: ");
+					System.out.print("Item a ser pesquisado: ");
 					item = input.nextInt();
 					pos = hash.searchPos((Object) item);
 					if (pos >= 0)
-						System.out.println("Item encontrado na posição: "+pos); 
+						System.out.println("Item encontrado na posição "+pos); 
 					break;
 				case 7:
 					System.out.println("Itens: ");
@@ -168,6 +164,7 @@ public class Main {
 		} while (opcao != 0);
 	}
 
+
 	public static void menuMatriz() {
 
 	}
@@ -177,7 +174,7 @@ public class Main {
 		int opcao;
 		int item;
 		do {
-			System.out.println("MENU");
+			System.out.println("\n\tMENU: PILHA DINAMICA");
 			System.out.println("[1] - empilhar um item");
 			System.out.println("[2] - empilhar vários itens");
 			System.out.println("[3] - desempilhar");
@@ -222,21 +219,24 @@ public class Main {
 	}
 
     public static void main(String[] args) {
+		input = new Scanner(System.in);
+		lista = new ArrayList<>();
+
 		if (args.length == 0) {
 			System.out.println("Necessário passar um argumento ao programa.");
 			System.out.println("Argumentos possíveis:");
-			System.out.println("\tarvore");
-			System.out.println("\thash");
-			System.out.println("\tmatriz");
-			System.out.println("\tpilha");
+			System.out.println("  * arvore");
+			System.out.println("  * hash");
+			System.out.println("  * matriz");
+			System.out.println("  * pilha");
 		} else {
-			if (args[1].equals("arvore")) {
+			if (args[0].equals("arvore")) {
 				menuArvore();
-			} else if (args[1].equals("hash")) {
+			} else if (args[0].equals("hash")) {
 				menuHash();
-			} else if (args[1].equals("matriz")) {
+			} else if (args[0].equals("matriz")) {
 				menuMatriz();
-			} else if (args[1].equals("pilha")) {
+			} else if (args[0].equals("pilha")) {
 				menuPilha();
 			}
 		}
