@@ -61,7 +61,6 @@ public class Hash {
         // found in the main area
         if (htable[pRemotion] != null && ((int)htable[pRemotion] == (int)toBeRemoved)) {
             pos = pRemotion;
-			htable[pRemotion] = null;
             boolean hasSubstitute = false;
             // change the item in the main area
             // with the item in the overflow area
@@ -76,6 +75,8 @@ public class Hash {
                     htable[tableSize + posOverflow] = null;
                 }
             }
+			if (!hasSubstitute)
+				htable[pRemotion] = null;
         } else {
             // not found in main area -> search in the overflow area
             for (int i = 0; i < posOverflow; i++) {
@@ -103,7 +104,6 @@ public class Hash {
 		// if there is something in the position
         if (htable[key] != null) {
             removed = htable[key];
-			htable[key] = null;
             boolean hasSubstitute = false;
             // again, put in the main area
             // the item with the same hash coming
@@ -118,6 +118,8 @@ public class Hash {
                     htable[posOverflow] = null;
                 }
             }
+			if (!hasSubstitute)
+				htable[key] = null;
         }
         return removed;
     }
@@ -133,7 +135,7 @@ public class Hash {
         System.out.println("]\n");
         System.out.println("Área de reserva: [");
         for (int i = 0; i < posOverflow; i++) {
-            System.out.print("    Índice "+i+":  "+(int)htable[tableSize + i] + "\n");
+            System.out.print("    Índice "+(i+tableSize)+":  "+(int)htable[tableSize + i] + "\n");
         }
         System.out.println("]\n");
     }
@@ -149,7 +151,7 @@ public class Hash {
             } else {
                 // searching on overflow 
                 for (int i = 0; i < posOverflow && !retorno; i++) {
-                    if ((int)htable[i + tableSize] == (int)obj) {
+                    if (htable[i + tableSize] != null && ((int)htable[i + tableSize] == (int)obj)) {
                         retorno = true;
 					}
                 }
@@ -171,7 +173,7 @@ public class Hash {
             } else {
                 // searching in overflow area
                 for (int i = 0; i < posOverflow && (pos == -1); i++) {
-                    if ((int)htable[i + tableSize] == (int)obj) {
+                    if (htable[i + tableSize] != null && ((int)htable[i + tableSize] == (int)obj)) {
                         pos = i + tableSize;
                     }
                 }
