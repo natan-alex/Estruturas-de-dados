@@ -14,10 +14,13 @@ public class Hash {
     }
 
     public Hash(int tableSize, int overflowSize) {
+		// if the size is invalid, both will 
+		// have the value of 10
 		if (isSizeValid(tableSize) && isSizeValid(overflowSize)) {
 			this.tableSize = tableSize;
 			this.overflowSize = overflowSize;
 		} else {
+			System.out.println("Algum tamanho inserido é inválido. Assumindo o valor 10.");
 			this.tableSize = 10;
 			this.overflowSize = 10;
 		}
@@ -143,7 +146,7 @@ public class Hash {
         }
         System.out.println("]\n");
         System.out.println("Área de reserva: [");
-        for (int i = 0; i < posOverflow; i++) {
+        for (int i = 0; i < (realsize - overflowSize); i++) {
             if (htable[i + tableSize] != null)
 				System.out.print("    Índice "+(i+tableSize)+":  "+(int)htable[tableSize + i] + "\n");
             else
