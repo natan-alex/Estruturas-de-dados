@@ -7,21 +7,30 @@ public class Hash {
     public  int overflowSize;
     private int realsize;
     private int posOverflow; // control insertions on overflow area
-    public Object htable[]; // make easy to substitute the type of the table
+    public  Object htable[]; // make easy to substitute the type of the table
 
     public Hash() {
         this(10, 10);
     }
 
     public Hash(int tableSize, int overflowSize) {
-        this.tableSize = tableSize;
-        this.overflowSize = overflowSize;
-        this.realsize = tableSize + overflowSize;
-        this.posOverflow = 0;
-        this.htable = new Object[realsize];
+		if (isSizeValid(tableSize) && isSizeValid(overflowSize)) {
+			this.tableSize = tableSize;
+			this.overflowSize = overflowSize;
+		} else {
+			this.tableSize = 10;
+			this.overflowSize = 10;
+		}
+        realsize = tableSize + overflowSize;
+        posOverflow = 0;
+        htable = new Object[realsize];
         for (int i = 0; i < realsize; i++) 
             htable[i] = null;
     }
+
+	private boolean isSizeValid(int size) {
+		return (size > 0);
+	}
 
     private int hash(Object item) {
         // change the key with whatever you want
