@@ -6,6 +6,8 @@ import hash_simples.Hash;
 import hash_simples.MenuHash;
 import fila_dinamica.MenuFila;
 import fila_dinamica.FilaDinamica;
+import lista_dinamica.ListaDinamica;
+import lista_dinamica.MenuLista;
 import pilha_dinamica.PilhaDinamica;
 import pilha_dinamica.MenuPilha;
 import matriz_dinamica.MatrizDinamica;
@@ -19,6 +21,7 @@ public class Main {
 			System.out.println("  * arvore");
 			System.out.println("  * fila");
 			System.out.println("  * hash");
+			System.out.println("  * lista");
 			System.out.println("  * matriz");
 			System.out.println("  * pilha");
 		} else {
@@ -32,6 +35,8 @@ public class Main {
 				MenuPilha.menu();
 			} else if (args[0].equals("fila")) {
 				MenuFila.menu();
+			} else if (args[0].equals("lista")) {
+				MenuLista.menu();
 			}
 		}
     }
