@@ -1,13 +1,26 @@
 package matriz_dinamica;
 
+import java.util.List;
+
 public class MatrizDinamica {
     private CelulaMatriz inicio;
     private int linhas, colunas;
 
     public MatrizDinamica(int linhas, int colunas) {
         this.inicio = new CelulaMatriz();
-        this.linhas = linhas;
-        this.colunas = colunas;
+		if (!isSizeValid(linhas)) {
+			System.out.println("Número de linhas inválido, assumindo valor 5.");
+			this.linhas = 5;
+		} else {
+			this.linhas = linhas;
+		}
+
+		if (!isSizeValid(linhas)) {
+			System.out.println("Número de colunas inválido, assumindo valor 5.");
+			this.colunas = 5;
+		} else {
+			this.colunas = colunas;
+		}
 
         CelulaMatriz tmp = inicio;
 
@@ -41,7 +54,11 @@ public class MatrizDinamica {
         }
     }
 
-    public boolean isColunaELinhaValida(int linha, int coluna) {
+	private boolean isSizeValid(int size) {
+		return (size > 0);
+	}
+
+    private boolean isColunaELinhaValida(int linha, int coluna) {
         if (linha < this.linhas) 
             if (coluna < this.colunas)
                 return true;
@@ -49,27 +66,48 @@ public class MatrizDinamica {
     }
 
     // varre linhas, depois colunas ate o local de insercao
-    public void inserirValor(int item, int linha, int coluna) {
+    public boolean inserirValor(int item, int linha, int coluna) {
+		boolean result = false;
         if (!isColunaELinhaValida(linha, coluna)) {
             System.out.println("Falha ao inserir valor "+item+" em ["+linha+", "+coluna+"] -> Valores de linha ou coluna inválidos.");
-            return;
-        }
+        } else {
+			CelulaMatriz tmp = inicio.dir;
 
-        CelulaMatriz tmp = inicio.dir;
+			for (int i = 0; i < linha; i++) 
+				tmp = tmp.inf;
 
-        for (int i = 0; i < linha; i++) 
-            tmp = tmp.inf;
+			for (int j = 0; j < coluna; j++)
+				tmp = tmp.dir;
 
-        for (int j = 0; j < coluna; j++)
-            tmp = tmp.dir;
-
-        tmp.item = item;
+			tmp.item = item;
+			
+			result = true;
+		}
+		return result;
     }
 
-    public int removerValor(int linha, int coluna) {
+    public boolean removerValor(int valor) {
+        CelulaMatriz tmp = inicio.dir;
+		CelulaMatriz tmp2 = tmp.inf;
+
+        for (int i = 0; i < linhas; i++) {
+			for (int j = 0; j < colunas; j++) {
+				if (tmp.item == valor) {
+					tmp.item = Integer.MIN_VALUE;
+					return true;
+				}
+				tmp = tmp.dir;
+			}
+            tmp = tmp2;
+			tmp2 = tmp2.inf;
+		}
+		return false;
+    }
+
+    public int removerDaPosicao(int linha, int coluna) {
         if (!isColunaELinhaValida(linha, coluna)) {
             System.out.println("Falha na remocao do valor em ["+linha+", "+coluna+"] -> Valores de linha ou coluna inválidos.");
-            return -1;
+            return Integer.MIN_VALUE;
         }
 
         CelulaMatriz tmp = inicio.dir;
@@ -91,7 +129,10 @@ public class MatrizDinamica {
             for (int j = 0; j < i; j++)
                 tmp = tmp.inf;
             for (int j = 0; j < colunas; j++) {
-                System.out.print(tmp.item+" ");
+				if (tmp.item == Integer.MIN_VALUE)
+					System.out.print("(vazio)\t");
+				else
+					System.out.print(tmp.item+"\t");
                 tmp = tmp.dir;
             }
             System.out.println();
@@ -100,7 +141,7 @@ public class MatrizDinamica {
 
     // linhas e colunas caminham juntas, tanto da matriz resultado quanto 
     // das matrizes a serem somadas
-    public MatrizDinamica soma(MatrizDinamica m) {
+    public MatrizDinamica somarMatrizes(MatrizDinamica m) {
         MatrizDinamica resultado = new MatrizDinamica(this.linhas, this.colunas);
 
         CelulaMatriz tmp, tmp2, tmp3;
@@ -129,7 +170,7 @@ public class MatrizDinamica {
         return resultado;
     }
 
-    public MatrizDinamica multiplicacao(MatrizDinamica m) {
+    public MatrizDinamica multiplicarMatrizes(MatrizDinamica m) {
         MatrizDinamica resultado = new MatrizDinamica(linhas, m.colunas);
 
         CelulaMatriz tmp, tmp2, tmp3;
@@ -182,18 +223,30 @@ public class MatrizDinamica {
     // elemento da diagonal principal: quando i == j
     public void mostrarDiagonalPrincipal() {
         CelulaMatriz tmp = inicio.dir;
+		int cont = 0;
+		String linha = "";
 
         for (int i = 0; i < linhas; i++) {
+			cont = 0;
+			linha = "";
+			while (cont < i) {
+				linha += "\t";
+				cont++;
+			}
             tmp = inicio.dir;
             for (int j = 0; j < i; j++)
                 tmp = tmp.inf;
             for (int j = 0; j < colunas; j++) {
-                if (i == j)
-                    System.out.print(tmp.item+" ");
+                if (i == j) {
+					if (tmp.item == Integer.MIN_VALUE)
+						linha += "(vazio)\t";
+					else
+						linha += tmp.item+"\t";
+				}
                 tmp = tmp.dir;
             }
+			System.out.println(linha);
         }
-        System.out.println();
     }
 
     // tendo em vista que 0 é a primeira posição
@@ -201,17 +254,29 @@ public class MatrizDinamica {
     // secundaria ocorre quando i + j == linhas - 1
     public void mostrarDiagonalSecundaria() {
         CelulaMatriz tmp = inicio.dir;
+		int cont = 0;
+		String linha = "";
 
         for (int i = 0; i < linhas; i++) {
+			cont = colunas-1;
+			linha = "";
+			while (cont > i) {
+				linha += "\t";
+				cont--;
+			}
             tmp = inicio.dir;
             for (int j = 0; j < i; j++)
                 tmp = tmp.inf;
             for (int j = 0; j < colunas; j++) {
-                if ((i + j) == (linhas - 1))
-                    System.out.print(tmp.item+" ");
+                if ((i + j) == (linhas - 1)) {
+					if (tmp.item == Integer.MIN_VALUE)
+						linha += "(vazio)\t";
+					else
+						linha += ""+tmp.item;
+				}
                 tmp = tmp.dir;
             }
+			System.out.println(linha);
         }
-        System.out.println();
     }
 }

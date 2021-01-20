@@ -5,7 +5,7 @@ public class CelulaMatriz {
     public CelulaMatriz inf, sup, esq, dir;
 
     public CelulaMatriz() {
-        this(-1,null,null,null,null);
+        this(Integer.MIN_VALUE,null,null,null,null);
     }
 
     public CelulaMatriz(int item, CelulaMatriz inf, CelulaMatriz sup, CelulaMatriz esq, CelulaMatriz dir) {
