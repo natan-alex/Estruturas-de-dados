@@ -4,6 +4,8 @@ import arvore_binaria.ArvoreBinaria;
 import arvore_binaria.MenuArvoreBinaria;
 import hash_simples.Hash;
 import hash_simples.MenuHash;
+import fila_dinamica.MenuFila;
+import fila_dinamica.FilaDinamica;
 import pilha_dinamica.PilhaDinamica;
 import pilha_dinamica.MenuPilha;
 import matriz_dinamica.MatrizDinamica;
@@ -15,6 +17,7 @@ public class Main {
 			System.out.println("Necessário passar um argumento ao programa.");
 			System.out.println("Argumentos possíveis:");
 			System.out.println("  * arvore");
+			System.out.println("  * fila");
 			System.out.println("  * hash");
 			System.out.println("  * matriz");
 			System.out.println("  * pilha");
@@ -27,6 +30,8 @@ public class Main {
 				MenuMatriz.menu();
 			} else if (args[0].equals("pilha")) {
 				MenuPilha.menu();
+			} else if (args[0].equals("fila")) {
+				MenuFila.menu();
 			}
 		}
     }

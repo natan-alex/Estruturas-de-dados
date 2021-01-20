@@ -1,10 +1,11 @@
 package pilha_dinamica;
 
 import java.util.List;
+import main.Celula;
 
 public class PilhaDinamica {
     private int qtd;
-    private CelulaPilha topo;
+    private Celula topo;
     
     public PilhaDinamica() {
         qtd = 0;
@@ -12,7 +13,7 @@ public class PilhaDinamica {
     }
 
     public void empilhar(int e) {
-        topo = new CelulaPilha(e, topo);
+        topo = new Celula(e, topo);
         qtd++;
     }
 
@@ -23,7 +24,7 @@ public class PilhaDinamica {
 
     public int desempilhar() {
         int retorno = topo.item;
-        CelulaPilha tmp = topo;
+        Celula tmp = topo;
         topo = topo.prox;
         tmp.prox = null;
         tmp = null;
@@ -32,7 +33,7 @@ public class PilhaDinamica {
     }
 
     public void mostrarPilha() {
-        for (CelulaPilha c = topo; c != null; c = c.prox) 
+        for (Celula c = topo; c != null; c = c.prox) 
             System.out.println("|\t"+c.item+"\t|");
         System.out.println();
     }

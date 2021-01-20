@@ -7,7 +7,7 @@ public class MenuArvoreBinaria {
 		ArvoreBinaria arvore = new ArvoreBinaria();
 		int opcao, item;
 		do {
-			System.out.println("\n\tMENU => ARVORE BINARIA DE PESQUISA");
+			System.out.println("\n\tMENU: ARVORE BINARIA DE PESQUISA");
 			System.out.println("[1] - inserir um item");
 			System.out.println("[2] - inserir vários itens");
 			System.out.println("[3] - remover item da árvore");
