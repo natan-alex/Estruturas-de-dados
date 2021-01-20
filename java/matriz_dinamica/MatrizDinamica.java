@@ -145,6 +145,11 @@ public class MatrizDinamica {
     // linhas e colunas caminham juntas, tanto da matriz resultado quanto 
     // das matrizes a serem somadas
     public MatrizDinamica somarMatrizes(MatrizDinamica m) {
+		if (m.linhas != this.linhas || m.colunas != this.colunas) {
+			System.out.println("Falha ao somar matrizes: ordens diferentes (número de linhas ou de colunas não são os mesmos).");
+			return null;
+		}
+
         MatrizDinamica resultado = new MatrizDinamica(this.linhas, this.colunas);
 
         CelulaMatriz tmp, tmp2, tmp3;
@@ -174,6 +179,11 @@ public class MatrizDinamica {
     }
 
     public MatrizDinamica multiplicarMatrizes(MatrizDinamica m) {
+		if (m.linhas != this.colunas) {
+			System.out.println("Falha ao multiplicar matrizes: número de linhas de uma matriz diferente do número de colunas da outra matriz.");
+			return null;
+		}
+
         MatrizDinamica resultado = new MatrizDinamica(linhas, m.colunas);
 
         CelulaMatriz tmp, tmp2, tmp3;
