@@ -183,7 +183,7 @@ public class MatrizDinamica {
 
 		System.out.println();
         for (int i = 0; i < linhas; i++) {
-			cont = colunas-1;
+			cont = colunas-2;
 			linha = "";
 			while (cont > i) {
 				linha += "\t";
@@ -193,9 +193,9 @@ public class MatrizDinamica {
             for (int j = 0; j < i; j++)
                 tmp = tmp.inf;
             for (int j = 0; j < colunas; j++) {
-                if ((i + j) == (linhas - 1)) {
+                if ((i + j) == linhas) {
 					if (tmp.item == Integer.MIN_VALUE)
-						linha += "(vazio)\t";
+						linha += "(vazio)";
 					else
 						linha += ""+tmp.item;
 				}
