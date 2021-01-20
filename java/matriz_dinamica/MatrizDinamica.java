@@ -127,6 +127,7 @@ public class MatrizDinamica {
     public void mostrarItens() {
         CelulaMatriz tmp = inicio.dir;
 
+		System.out.println();
         for (int i = 0; i < linhas; i++) {
             tmp = inicio.dir;
             for (int j = 0; j < i; j++)
@@ -139,6 +140,68 @@ public class MatrizDinamica {
                 tmp = tmp.dir;
             }
             System.out.println();
+        }
+    }
+
+    // elemento da diagonal principal: quando i == j
+    public void mostrarDiagonalPrincipal() {
+        CelulaMatriz tmp = inicio.dir;
+		int cont = 0;
+		String linha = "";
+
+		System.out.println();
+        for (int i = 0; i < linhas; i++) {
+			cont = 0;
+			linha = "";
+			while (cont < i) {
+				linha += "\t";
+				cont++;
+			}
+            tmp = inicio.dir;
+            for (int j = 0; j < i; j++)
+                tmp = tmp.inf;
+            for (int j = 0; j < colunas; j++) {
+                if (i == j) {
+					if (tmp.item == Integer.MIN_VALUE)
+						linha += "(vazio)\t";
+					else
+						linha += tmp.item+"\t";
+				}
+                tmp = tmp.dir;
+            }
+			System.out.println(linha);
+        }
+    }
+
+    // tendo em vista que 0 é a primeira posição
+    // da linha e da coluna, elemento da diagonal 
+    // secundaria ocorre quando i + j == linhas - 1
+    public void mostrarDiagonalSecundaria() {
+        CelulaMatriz tmp = inicio.dir;
+		int cont = 0;
+		String linha = "";
+
+		System.out.println();
+        for (int i = 0; i < linhas; i++) {
+			cont = colunas-1;
+			linha = "";
+			while (cont > i) {
+				linha += "\t";
+				cont--;
+			}
+            tmp = inicio.dir;
+            for (int j = 0; j < i; j++)
+                tmp = tmp.inf;
+            for (int j = 0; j < colunas; j++) {
+                if ((i + j) == (linhas - 1)) {
+					if (tmp.item == Integer.MIN_VALUE)
+						linha += "(vazio)\t";
+					else
+						linha += ""+tmp.item;
+				}
+                tmp = tmp.dir;
+            }
+			System.out.println(linha);
         }
     }
 
@@ -231,65 +294,5 @@ public class MatrizDinamica {
         }
 
         return resultado;
-    }
-
-    // elemento da diagonal principal: quando i == j
-    public void mostrarDiagonalPrincipal() {
-        CelulaMatriz tmp = inicio.dir;
-		int cont = 0;
-		String linha = "";
-
-        for (int i = 0; i < linhas; i++) {
-			cont = 0;
-			linha = "";
-			while (cont < i) {
-				linha += "\t";
-				cont++;
-			}
-            tmp = inicio.dir;
-            for (int j = 0; j < i; j++)
-                tmp = tmp.inf;
-            for (int j = 0; j < colunas; j++) {
-                if (i == j) {
-					if (tmp.item == Integer.MIN_VALUE)
-						linha += "(vazio)\t";
-					else
-						linha += tmp.item+"\t";
-				}
-                tmp = tmp.dir;
-            }
-			System.out.println(linha);
-        }
-    }
-
-    // tendo em vista que 0 é a primeira posição
-    // da linha e da coluna, elemento da diagonal 
-    // secundaria ocorre quando i + j == linhas - 1
-    public void mostrarDiagonalSecundaria() {
-        CelulaMatriz tmp = inicio.dir;
-		int cont = 0;
-		String linha = "";
-
-        for (int i = 0; i < linhas; i++) {
-			cont = colunas-1;
-			linha = "";
-			while (cont > i) {
-				linha += "\t";
-				cont--;
-			}
-            tmp = inicio.dir;
-            for (int j = 0; j < i; j++)
-                tmp = tmp.inf;
-            for (int j = 0; j < colunas; j++) {
-                if ((i + j) == (linhas - 1)) {
-					if (tmp.item == Integer.MIN_VALUE)
-						linha += "(vazio)\t";
-					else
-						linha += ""+tmp.item;
-				}
-                tmp = tmp.dir;
-            }
-			System.out.println(linha);
-        }
     }
 }

@@ -238,8 +238,6 @@ public class Main {
 					item = matriz.removerDaPosicao(linha, coluna);
 					if (item != Integer.MIN_VALUE)
 						System.out.println("Item removido: "+item);
-					else
-						System.out.println("Falha ao remover da posição especificada.");
 					break;
 				case 4:
 					matriz.mostrarDiagonalPrincipal();
@@ -251,18 +249,12 @@ public class Main {
 					matriz.mostrarItens();
 					break;
 				case 7:
-					System.out.print("Número de linhas da matriz a ser somada: ");
-					linha = input.nextInt();
-					System.out.print("Número de colunas da matriz a ser somada: ");
-					coluna = input.nextInt();
-					matriz.somarMatrizes(construirNovaMatriz(linha, coluna)).mostrarItens();
+					matriz.somarMatrizes(construirNovaMatriz(linhas, colunas)).mostrarItens();
 					break;
 				case 8:
-					System.out.print("Número de linhas da matriz a ser multiplicada: ");
-					linha = input.nextInt();
 					System.out.print("Número de colunas da matriz a ser multiplicada: ");
 					coluna = input.nextInt();
-					matriz.multiplicarMatrizes(construirNovaMatriz(linha, coluna)).mostrarItens();
+					matriz.multiplicarMatrizes(construirNovaMatriz(colunas, coluna)).mostrarItens();
 					break;
 				case 0:
 					System.out.println("Encerrado.");
