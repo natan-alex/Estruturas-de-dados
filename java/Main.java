@@ -238,6 +238,8 @@ public class Main {
 					item = matriz.removerDaPosicao(linha, coluna);
 					if (item != Integer.MIN_VALUE)
 						System.out.println("Item removido: "+item);
+					else
+						System.out.println("Falha ao remover da posição especificada.");
 					break;
 				case 4:
 					matriz.mostrarDiagonalPrincipal();

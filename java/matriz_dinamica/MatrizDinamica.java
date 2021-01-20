@@ -99,7 +99,8 @@ public class MatrizDinamica {
 				tmp = tmp.dir;
 			}
             tmp = tmp2;
-			tmp2 = tmp2.inf;
+			if (tmp2.inf != null)
+				tmp2 = tmp2.inf;
 		}
 		return false;
     }
@@ -118,7 +119,9 @@ public class MatrizDinamica {
         for (int j = 0; j < coluna; j++)
             tmp = tmp.dir;
 
-        return tmp.item;
+		int retorno = tmp.item;
+		tmp.item = Integer.MIN_VALUE;
+        return retorno;
     }
 
     public void mostrarItens() {
@@ -130,9 +133,9 @@ public class MatrizDinamica {
                 tmp = tmp.inf;
             for (int j = 0; j < colunas; j++) {
 				if (tmp.item == Integer.MIN_VALUE)
-					System.out.print("(vazio)\t");
+					System.out.print("(vazio)\t\t");
 				else
-					System.out.print(tmp.item+"\t");
+					System.out.print(tmp.item+"\t\t");
                 tmp = tmp.dir;
             }
             System.out.println();
