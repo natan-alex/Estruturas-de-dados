@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-// the maximum size of the queue
 #define TAM 5
-// make easy to do the operations
+// the maximum size of the queue
 #define REALSIZE (TAM+1)
 
 int first = 0;

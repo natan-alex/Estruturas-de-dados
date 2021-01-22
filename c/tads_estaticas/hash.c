@@ -168,8 +168,7 @@ int main() {
     printf("apos remocao do 21: \n");
     mostrar(th);
     printf("Posicao removido: %d\n", removerItem(th, 45));
-    printf("apos remocao do 45: \n");
-    mostrar(th);
+	mostrar(th);
     printf("Item removido: %d\n", removerPos(th, 30));
     mostrar(th);
 }
