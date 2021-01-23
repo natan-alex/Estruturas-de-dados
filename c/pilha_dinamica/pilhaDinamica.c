@@ -6,7 +6,7 @@
 
 Pilha * newPilha() {
 	Pilha * pilha = (Pilha *) malloc(sizeof(Pilha));
-	pilha->topo = newCelula();
+	pilha->topo = NULL;
 	return pilha;
 }
 
