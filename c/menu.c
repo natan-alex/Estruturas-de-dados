@@ -2,10 +2,10 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "menuAvl.h"
-#include "menuFilaDinamica.h"
-#include "menuListaDinamica.h"
-#include "menuPilhaDinamica.h"
+#include "arvore_avl/menuAvl.h"
+#include "fila_dinamica/menuFilaDinamica.h"
+#include "lista_dinamica/menuListaDinamica.h"
+#include "pilha_dinamica/menuPilhaDinamica.h"
 
 int main(int argc, char ** argv) {
 	if (argc < 2) {

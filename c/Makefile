@@ -1,31 +1,44 @@
-define clean_gch = 
-	for gch in $(find . -type f -name "*.gch"); do rm $gch; done
+dirs = arvore_avl fila_dinamica lista_dinamica pilha_dinamica
+
+define hideAllMain = 
+	for dir in $(dirs); do mv $$dir/main.c $$dir/.main.c; done
 endef
 
-define clean_til = 
-	for til in $(find . -type f -name ".*~"); do rm $til; done
+define showAllMain = 
+	for dir in $(dirs); do mv $$dir/.main.c $$dir/main.c; done
 endef
 
-all: dinamicos estaticos
+all:
+	$(call hideAllMain)
+	gcc arvore_avl/* common/* menu.c fila_dinamica/* lista_dinamica/* pilha_dinamica/* -Wall -pedantic -o compiladoDinamicos
+	$(call showAllMain)
 
-dinamicos: 
-	gcc arvore_avl/* common/* menus/* fila_dinamica/* lista_dinamica/* pilha_dinamica/* hash_com_lista/* -o dinamicos
+arvoreAvl:
+	gcc arvore_avl/* common/* -Wall -pedantic -o arvoreAvl
+
+filaDinamica:
+	gcc fila_dinamica/* common/* -Wall -pedantic -o filaDinamica
+
+listaDinamica:
+	gcc lista_dinamica/* common/* -Wall -pedantic -o listaDinamica
+
+pilhaDinamica:
+	gcc pilha_dinamica/* common/* -Wall -pedantic -o pilhaDinamica
+
+dinamicos: arvoreAvl filaDinamica listaDinamica pilhaDinamica
 	
-estaticos: 
-	gcc tads_estaticas/filaCircular.c -o filaCircular
-	gcc tads_estaticas/hash.c -o hashSimples
-	gcc tads_estaticas/pilha.c -o listaSimples
+estaticos: filaCircular hashSimples listaSimples
 
-fila_circular:
-	gcc tads_estaticas/filaCircular.c -o filaCircular
+filaCircular:
+	gcc tads_estaticas/filaCircular.c -Wall -pedantic -o filaCircular
 
-hash_simples:
-	gcc tads_estaticas/hash.c -o hashSimples
+hashSimples:
+	gcc tads_estaticas/hash.c -Wall -pedantic -o hashSimples
 
-lista_simples:
-	gcc tads_estaticas/pilha.c -o listaSimples
+listaSimples:
+	gcc tads_estaticas/pilha.c -Wall -pedantic -o listaSimples
 
 clean:
-	$(value clean_gch)
-	$(value clean_til)
-	rm dinamicos filaCircular hashSimples listaSimples
+	for lixo in $$(find . -type f -name ".*~"); do rm $$lixo; done
+	for lixo in $$(find . -type f -name ".*.gch"); do rm $$lixo; done
+	rm compiladoDinamicos arvoreAvl filaDinamica hashComLista listaDinamica pilhaDinamica filaCircular hashSimples listaSimples

@@ -22,7 +22,7 @@ int empilhar(Pilha * pilha, int item) {
 }
 
 int desempilhar(Pilha * pilha) {
-	int removido = -9999;
+	int removido = 0x7fffffff;
 	if (pilha->topo == NULL) {
 		printf("Erro ao desempilhar: pilha vazia.\n");
 	} else {

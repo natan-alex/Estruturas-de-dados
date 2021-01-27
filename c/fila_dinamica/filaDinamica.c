@@ -32,7 +32,7 @@ void enqueue(Queue * q, int item) {
 int dequeue(Queue * q) {
     if (isEmpty(q)) {
         printf("Fila vazia!\n");
-        return -9999;
+        return 0x7fffffff;
     }
 
     Celula * tmp = q->head;

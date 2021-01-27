@@ -61,7 +61,7 @@ int inserir(Hash * th, int item) {
 
 // remove item using its position
 int removerPos(Hash * th, int key) {
-    int removed = -9999;
+    int removed = 0x7fffffff;
 
     // is key valid?
     if (key < 0 || key >= th->realSize) {

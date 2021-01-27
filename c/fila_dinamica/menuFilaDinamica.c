@@ -29,7 +29,7 @@ void menuFilaDinamica() {
 				break;
 			case 2:
 				item = dequeue(fila);
-				if (item != -9999) {
+				if (item != 0x7fffffff) {
 					printf("Item removido: %d\n", item);
 				}
 				break;

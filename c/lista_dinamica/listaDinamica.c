@@ -73,7 +73,7 @@ bool inserirNaPos(Lista * lista, int item, int pos) {
 }
 
 int removerDoInicio(Lista * lista) {
-    int removido = -9999;
+    int removido = 0x7fffffff;
     if (isVazia(lista)) {
         printf("Lista vazia!\n");
     } else {
@@ -88,7 +88,7 @@ int removerDoInicio(Lista * lista) {
 }
 
 int removerDaPos(Lista * lista, int pos) {
-    int removido = -9999;
+    int removido = 0x7fffffff;
     if (isVazia(lista)) {
         printf("Lista vazia!\n");
     } else {
@@ -112,7 +112,7 @@ int removerDaPos(Lista * lista, int pos) {
 }
 
 int removerDoFim(Lista * lista) {
-    int removido = -9999;
+    int removido = 0x7fffffff;
     if (isVazia(lista)) {
         printf("Lista vazia!\n");
     } else {

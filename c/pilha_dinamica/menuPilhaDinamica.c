@@ -28,7 +28,7 @@ void menuPilhaDinamica() {
 				break;
 			case 2:
 				item = desempilhar(pilha);
-				if (item != -9999) {
+				if (item != 0x7fffffff) {
 					printf("Item removido: %d\n", item);
 				}
 				break;

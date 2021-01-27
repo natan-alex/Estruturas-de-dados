@@ -1,25 +1,14 @@
-/**************************************************
-**                 Hash com Lista                **
-**                dinamica simples               **
-**************************************************/
-
 #include "hashComLista.h"
 #include "../lista_dinamica/listaDinamica.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <limits.h>
 
-int tamTabela = 10;
+int tamTabela;
 
-Lista ** newHash() {
-    Lista ** tabelaHash = (Lista **) malloc(sizeof(Lista *) * tamTabela);
-    for (int i = 0; i < tamTabela; i++) 
-        tabelaHash[i] = newLista();
-    return tabelaHash;
-}
-
-Lista ** newHash2(int tamanho) {
+Lista ** newHash(int tamanho) {
     tamTabela = tamanho;
     Lista ** tabelaHash = (Lista **) malloc(sizeof(Lista *) * tamTabela);
     for (int i = 0; i < tamTabela; i++) 
@@ -31,15 +20,29 @@ int hash(int item) {
     return item % tamTabela;
 }
 
-bool inserirNaTabela(Lista ** thash, int item) {
+bool inserirNoFimDaListaDaTabela(Lista ** thash, int item) {
     bool inseriuComSucesso = false;
     int pos = hash(item);
     inseriuComSucesso = inserirNoFim(thash[pos], item);
     return inseriuComSucesso;
 }
 
-int removerDaTabela(Lista ** thash, int pos) {
-    int removido = -9999;
+bool inserirNoInicioDaListaDaTabela(Lista ** thash, int item) {
+    bool inseriuComSucesso = false;
+    int pos = hash(item);
+    inseriuComSucesso = inserirNoInicio(thash[pos], item);
+    return inseriuComSucesso;
+}
+
+bool inserirNumaPosDaListaDaTabela(Lista ** thash, int item, int pos) {
+    bool inseriuComSucesso = false;
+    int posNaHash = hash(item);
+    inseriuComSucesso = inserirNaPos(thash[posNaHash], item, pos);
+    return inseriuComSucesso;
+}
+
+int removerDoFimDaListaDaTabela(Lista ** thash, int pos) {
+    int removido = INT_MIN;
     if (pos >= 0 && pos < tamTabela) {
         removido = removerDoFim(thash[pos]);
     } else {
@@ -48,8 +51,18 @@ int removerDaTabela(Lista ** thash, int pos) {
     return removido;
 }
 
+int removerDoInicioDaListaDaTabela(Lista ** thash, int pos) {
+    int removido = INT_MIN;
+    if (pos >= 0 && pos < tamTabela) {
+        removido = removerDoInicio(thash[pos]);
+    } else {
+        printf("Posicao na tabela invalida.\n");
+    }
+    return removido;
+}
+
 int removerDaTabelaNaPos(Lista ** thash, int posNaHash, int posNaLista) {
-    int removido = -9999;
+    int removido = INT_MIN;
     if (posNaHash >= 0 && posNaHash < tamTabela) {
         if (posNaLista >= 0 && posNaLista < thash[posNaHash]->qtd) {
             removido = removerDaPos(thash[posNaHash], posNaLista);
@@ -69,7 +82,7 @@ bool pesquisarItemNaTabela(Lista ** thash, int item) {
     return existeOItem;
 }
 
-int getPosicaoDeUmItem(Lista ** thash, int item) {
+void getPosicaoDeUmItem(Lista ** thash, int item) {
     printf("Pesquisando pelo item %d...\n", item);
     int posItemNaTabela = hash(item);
 	int posItemNaLista = getPosicaoDoItemNaLista(thash[posItemNaTabela], item);
