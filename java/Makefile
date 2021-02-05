@@ -1,7 +1,3 @@
-define clean() =
-	for class in $(find . -type f -name '*.class'); do rm $class; done
-endef
-
 all: 
 	javac */*.java
 	java main.Main
@@ -30,4 +26,5 @@ pilha_dinamica:
 	javac pilha_dinamica/*.java main/*.java
 	java main.Main pilha
 
-clean: ; $(value clean())
+clean: 
+	for class in $$(find . -type f -name '*.class'); do rm $$class; done
