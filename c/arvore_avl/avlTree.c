@@ -12,35 +12,63 @@ AvlTree * newAvl() {
 	return avl;
 }
 
-No * rotacaoSimplesEsq(No * desbalanceado) {
-	No * noDir = desbalanceado->dir;
+// ===========================================================
+
+int getMaior(int n1, int n2) {
+	return (n1 <= n2) ? n2 : n1;		
+}
+
+int getFatorDoNo(No * no) {
+	return (no == NULL) ? 0 : no->fator;
+}
+
+// fator do nó recebe o maior entre os fatores
+// da esquerda e direita -> o que faz com que os fatores
+// sejam armazenados em módulo
+void atualizarFatorDoNo(No * no) {
+	no->fator = 1 + getMaior(getFatorDoNo(no->esq), getFatorDoNo(no->dir)); 
+}
+
+// cálculo é feito com fator do nó a esquerda
+// menos o fator do nó a direita
+int calcularFatorDoNo(No * no) {
+	int fatorEsq = getFatorDoNo(no->esq);
+	int fatorDir = getFatorDoNo(no->dir);
+	return fatorEsq - fatorDir;
+}
+
+// ===========================================================
+
+No * realizarRotacaoSimplesAEsquerda(No * no) {
+	No * noDir = no->dir;
 	No * noDirEsq = noDir->esq;
-	desbalanceado->dir = noDirEsq;
-	noDir->esq = desbalanceado;
+	no->dir = noDirEsq;
+	noDir->esq = no;
 	return noDir;
 }
 
-No * rotacaoSimplesDir(No * desbalanceado) {
-	No * noEsq = desbalanceado->esq;
+No * realizarRotacaoSimplesADireita(No * no) {
+	No * noEsq = no->esq;
 	No * noEsqDir = noEsq->dir;
-	desbalanceado->esq = noEsqDir;
-	noEsq->dir = desbalanceado;
+	no->esq = noEsqDir;
+	noEsq->dir = no;
+
+	atualizarFatorDoNo(no);
+	atualizarFatorDoNo(noEsq);
+
 	return noEsq;
 }
-
-No * rotacaoDuplaEsq(No * desbalanceado) {
-	desbalanceado->esq = rotacaoSimplesEsq(desbalanceado->esq);
-	desbalanceado = rotacaoSimplesDir(desbalanceado);
-	return desbalanceado;
+  
+No * realizarRotacaoDuplaAEsquerda(No * no) {
+	no->esq = realizarRotacaoSimplesAEsquerda(no->esq);
+	return realizarRotacaoSimplesADireita(no);
 }
 
-No * rotacaoDuplaDir(No * desbalanceado) {
-	desbalanceado->dir = rotacaoSimplesDir(desbalanceado->dir);
-	desbalanceado = rotacaoSimplesEsq(desbalanceado);
-	return desbalanceado;
+No * realizarRotacaoDuplaADireita(No * no) {
+	no->dir = realizarRotacaoSimplesADireita(no->dir);
+	return realizarRotacaoSimplesAEsquerda(no);
 }
-
-// -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+// ===========================================================
 
 void mostrarPre(No * no) {
 	if (no != NULL) {
@@ -93,10 +121,10 @@ void mostrarTodasOrdens(AvlTree * avl) {
 	mostrarPosOrdem(avl);
 }
 
-// -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+// ===========================================================
 
-// contar o numero de nos de maneira recursiva:
-// conta o numero de filhos de um no + 1 do proprio no
+// contar o número de nos de maneira recursiva:
+// conta o número de filhos de um nó + 1 do próprio nó
 int contarNos(No * no) {
 	return (no != NULL) ? contarNos(no->esq) + contarNos(no->dir) + 1 : 0;
 }
@@ -105,43 +133,33 @@ int contarNosDaArvore(AvlTree * avl) {
 	return contarNos(avl->raiz);
 }
 
-// -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+// ===========================================================
 
-// retorna o fator de um no:
-// fator = fatorNoEsq - fatorNoDir
-int calcularFator(No * no) {
-	int fatorEsq = (no->esq == NULL) ? 0 : 1 + no->esq->fator;
-	int fatorDir = (no->dir == NULL) ? 0 : 1 + no->dir->fator;
-	return fatorEsq - fatorDir;
-}
-
+// retorna o nó balanceado fazendo as devidas rotações
 No * balancearNo(No * no) {
 	if (no != NULL) {
-		int fator = calcularFator(no);
-		if (abs(fator) <= 1) {
-			// se nao precisar de fazer nenhuma rotacao
-			// atualiza o fator do no em questao
-			no->fator = abs(fator);
-		} else if (fator == -2) {
-			// mais pesada a direita
-			int fatorFilhoDir = calcularFator(no->dir);
-			if (fatorFilhoDir == 1) {
-				no->dir = rotacaoSimplesDir(no->dir);
+		atualizarFatorDoNo(no);
+		int fatorDoNo = calcularFatorDoNo(no);
+		if (fatorDoNo == -2) {
+			// nó mais pesado a direita
+			if (calcularFatorDoNo(no->dir) == 1) {
+				no = realizarRotacaoDuplaADireita(no);
+			} else {
+				no = realizarRotacaoSimplesAEsquerda(no);
 			}
-			no = rotacaoSimplesEsq(no);
-		} else if (fator == 2) {
-			// mais pesada a esquerda
-			int fatorFilhoEsq = calcularFator(no->esq);
-			if (fatorFilhoEsq == -1) {
-				no->esq = rotacaoSimplesEsq(no->esq);
+		} else if (fatorDoNo == 2) {
+			// nó mais pesado a esquerda
+			if (calcularFatorDoNo(no->esq) == -1) {
+				no = realizarRotacaoDuplaAEsquerda(no);
+			} else {
+				no = realizarRotacaoSimplesADireita(no);
 			}
-			no = rotacaoSimplesDir(no);
 		}
 	}
 	return no;
 }
 
-// -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+// ===========================================================
 
 No * inserir(No * no, int item) {
 	if (no == NULL) {
@@ -164,7 +182,7 @@ void inserirNaArvore(AvlTree * avl, int item) {
 	avl->raiz = inserir(avl->raiz, item);
 }
 
-// -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+// ===========================================================
 
 No * retornaMaiorSubArvoreEsq(No * no) {
 	No * tmp = no->esq;
@@ -198,7 +216,7 @@ void removerDaArvore(AvlTree * avl, int aSerRemovido) {
 	avl->raiz = remover(avl->raiz, aSerRemovido);
 }
 
-// -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+// ===========================================================
 
 No * pesquisarInfos(No * no, int item) {
 	No * result;
@@ -219,7 +237,7 @@ void pesquisarPorNoContendoItem(AvlTree * avl, int item) {
 	if (result != NULL) {
 		printf("Item encontrado!\n");
 		printf("Informações sobre o nó que contém o item:\n");
-		printf("Fator: %d\n", calcularFator(result));
+		printf("Fator: %d\n", calcularFatorDoNo(result));
 		printf("Nó a esquerda: ");
 		if (result->esq == NULL) 
 			printf("(Não possui)\n");
@@ -235,7 +253,7 @@ void pesquisarPorNoContendoItem(AvlTree * avl, int item) {
 	}
 }
 
-// -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+// ===========================================================
 
 bool pesquisar(No * no, int item) {
 	bool encontrado = false;
@@ -259,7 +277,7 @@ void pesquisarPorItemNaArvore(AvlTree * avl, int item) {
 	}
 }
 
-// -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+// ===========================================================
 
 void desalocarNos(No * no) {
 	if (no != NULL) {
