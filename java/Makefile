@@ -30,7 +30,7 @@ pilhaDinamica:
 	javac pilha_dinamica/*.java main/*.java
 	java main.Main pilha
 
-jarForDinamicos:
+jarComDinamicos:
 	for class in $$(find . -type f -name '*.class'); do rm $$class; done
 	javac */*.java
 	jar cfm EstruturasDinamicas.jar manifest.txt */*.class
