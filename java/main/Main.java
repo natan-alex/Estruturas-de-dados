@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) {
 		if (args.length == 0) {
 			System.out.println("Necessário passar um argumento ao programa.");
-			System.out.println("Argumentos possíveis:");
+			System.out.println("Argumentos possíveis: (Todas as estruturas abaixo são flexíveis)");
 			System.out.println("  * arvore_binaria");
 			System.out.println("  * arvore_avl");
 			System.out.println("  * fila");
@@ -48,6 +48,8 @@ public class Main {
 			}
 			if (menuClass != null)
 				menuClass.menu();
+			menuClass = null;
 		}
+		Common.finalizar();
     }
 }

@@ -24,4 +24,9 @@ public class Common {
 			opcao = 'n';
 		return opcao;
 	}
+
+	public static void finalizar() {
+		input.close();
+		lista = null;
+	}
 }
