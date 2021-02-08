@@ -43,8 +43,11 @@ public class Main {
 				menuClass = new MenuFila();
 			} else if (args[0].equals("lista")) {
 				menuClass = new MenuLista();
+			} else {
+				System.out.println("Argumento inválido.");
 			}
-			menuClass.menu();
+			if (menuClass != null)
+				menuClass.menu();
 		}
     }
 }

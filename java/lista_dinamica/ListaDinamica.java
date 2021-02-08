@@ -21,6 +21,7 @@ public class ListaDinamica {
 	}
 
 	public boolean inserirNoInicio(int item) {
+		boolean insercaoFeita = false;
 		Celula auxiliar = new Celula(item);
 
 		if (isListaVazia()) {
@@ -32,10 +33,12 @@ public class ListaDinamica {
 		qtd++;
 		auxiliar = null;
 
-		return true;
+		insercaoFeita = true;
+		return insercaoFeita;
 	}
 
 	public boolean inserirNoFim(int item) {
+		boolean insercaoFeita = false;
 		Celula auxiliar = new Celula(item);
 
 		if (isListaVazia()) {
@@ -48,7 +51,8 @@ public class ListaDinamica {
 		qtd++;
 		auxiliar = null;
 
-		return true;
+		insercaoFeita = true;
+		return insercaoFeita;
 	}
 
 	public boolean inserirPos(int item, int pos) {
@@ -64,6 +68,7 @@ public class ListaDinamica {
 		tmp.prox = auxiliar;
 		qtd++;
 		auxiliar = null;
+		tmp = null;
 
 		return true;
 	}
@@ -94,9 +99,9 @@ public class ListaDinamica {
 			return itemRemovido;
 		}
 
-		Celula auxiliar = primeiraAuxiliar.prox;
+		Celula auxiliar = primeiraAuxiliar;
 		for (; auxiliar.prox != ultima; auxiliar = auxiliar.prox);
-		itemRemovido = ultima.item;
+		itemRemovido = auxiliar.prox.item;
 		auxiliar.prox = null;
 		ultima = auxiliar;
 		qtd--;
@@ -147,4 +152,3 @@ public class ListaDinamica {
 		System.out.println("]");
 	}
 }
-
