@@ -56,6 +56,7 @@ public class MenuArvoreBinaria {
 					break;
 				case 0:
 					System.out.println("Encerrado.");
+					arvore.desalocarArvoreDaMemoria();
 					break;
 				default:
 					System.out.println("Opção inválida.");

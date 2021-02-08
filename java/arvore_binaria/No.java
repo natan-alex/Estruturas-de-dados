@@ -5,7 +5,7 @@ public class No {
     public int item;
 
     public No() {
-        this(-1, null, null);
+        this(0x7fffffff, null, null);
     }
 
     public No(int item, No esq, No dir) {

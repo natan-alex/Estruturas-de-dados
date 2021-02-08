@@ -147,4 +147,15 @@ public class ArvoreBinaria {
         mostrarEmOrdemCrescente();
         mostrarPosOrdem();
 	}
+
+	public void desalocarArvoreDaMemoria() {
+		desalocarNos(raiz);
+	}
+
+	private void desalocarNos(No no) {
+		desalocarNos(no.esq);
+		no.esq = null;
+		desalocarNos(no.dir);
+		no.dir = null;
+	}
 }
