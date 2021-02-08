@@ -2,29 +2,34 @@ all:
 	javac */*.java
 	java main.Main
 
-arvore_binaria:
-	javac arvore_binaria/*.java main/*.java
-	java main.Main arvore
+arvoreAvl:
+	javac arvore_avl/*.java main/*.java
+	java main.Main arvore_avl
 
-fila_dinamica:
+arvoreBinaria:
+	javac arvore_binaria/*.java main/*.java
+	java main.Main arvore_binaria
+
+filaDinamica:
 	javac fila_dinamica/*.java main/*.java
 	java main.Main fila
 
-hash_simples:
+hashSimples:
 	javac hash_simples/*.java main/*.java
 	java main.Main hash
 
-lista_dinamica:
+listaDinamica:
 	javac lista_dinamica/*.java main/*.java
 	java main.Main lista
 
-matriz_dinamica:
+matrizDinamica:
 	javac matriz_dinamica/*.java main/*.java
 	java main.Main matriz
 
-pilha_dinamica:
+pilhaDinamica:
 	javac pilha_dinamica/*.java main/*.java
 	java main.Main pilha
 
 clean: 
 	for class in $$(find . -type f -name '*.class'); do rm $$class; done
+	rm *.jar

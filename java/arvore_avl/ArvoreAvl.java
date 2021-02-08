@@ -198,6 +198,41 @@ public class ArvoreAvl {
 
 		return encontrado;
 	}
+
+	private NoAvl obterInformacoesDoNo(NoAvl no, int item) {
+		NoAvl result;
+		if (no == null) {
+			result = null;
+		} else if (item == no.item) {
+			result = no;
+		} else if (item > no.item) {
+			result = obterInformacoesDoNo(no.dir, item);
+		} else {
+			result = obterInformacoesDoNo(no.esq, item);
+		}
+		return result;
+	}
+
+	public void obterInformacoesDoNo(int item) {
+		NoAvl result = obterInformacoesDoNo(raiz, item);
+		if (result != null) {
+			System.out.println("Item encontrado!\n");
+			System.out.println("Informações sobre o nó que contém o item:");
+			System.out.println("Fator: "+calcularFatorDoNo(result));
+			System.out.print("Nó a esquerda: ");
+			if (result.esq == null) 
+				System.out.println("(Não possui)");
+			else 
+				System.out.println(result.esq.item);
+			System.out.print("Nó a direita: ");
+			if (result.dir == null) 
+				System.out.println("(Não possui)\n");
+			else 
+				System.out.println(result.dir.item);
+		} else {
+			System.out.println("Item não encontrado.\n");
+		}
+	}
 	
 	// ===========================================================
 	
@@ -248,6 +283,16 @@ public class ArvoreAvl {
 		mostrarAvlEmPreOrdem();
 		mostrarAvlEmOrdem();
 		mostrarAvlEmPosOrdem();
+	}
+
+	// ===========================================================
+	
+	public int contarNosDaArvore() {
+		return contarNosDaArvore(raiz);
+	}
+
+	public int contarNosDaArvore(NoAvl no) {
+		return (no == null) ? 0 : 1 + contarNosDaArvore(no.esq) + contarNosDaArvore(no.dir);
 	}
 
 	// ===========================================================

@@ -1,9 +1,11 @@
 package hash_simples;
 
 import main.Common;
+import main.MenuInterface;
 
-public class MenuHash {
-	public static void menu() {
+public class MenuHash implements MenuInterface {
+	@Override	
+	public void menu() {
 		System.out.print("Tamanho da área principal da tabela: ");
 		int tam = Common.input.nextInt();
 		System.out.print("Tamanho da área de reserva da tabela: ");

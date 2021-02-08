@@ -1,9 +1,11 @@
 package arvore_binaria;
 
 import main.Common;
+import main.MenuInterface;
 
-public class MenuArvoreBinaria {
-	public static void menu() {
+public class MenuArvoreBinaria implements MenuInterface {
+	@Override
+	public void menu() {
 		ArvoreBinaria arvore = new ArvoreBinaria();
 		int opcao, item;
 		do {

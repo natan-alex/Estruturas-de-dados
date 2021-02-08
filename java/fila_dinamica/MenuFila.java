@@ -1,9 +1,11 @@
 package fila_dinamica;
 
 import main.Common;
+import main.MenuInterface;
 
-public class MenuFila {
-	public static void menu() {
+public class MenuFila implements MenuInterface {
+	@Override
+	public void menu() {
 		FilaDinamica fila = new FilaDinamica();
 		int opcao;
 		int item;

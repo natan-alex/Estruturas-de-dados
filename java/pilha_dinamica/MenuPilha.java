@@ -1,9 +1,11 @@
 package pilha_dinamica;
 
 import main.Common;
+import main.MenuInterface;
 
-public class MenuPilha {
-	public static void menu() {
+public class MenuPilha implements MenuInterface {
+	@Override	
+	public void menu() {
 		PilhaDinamica pilha = new PilhaDinamica();
 		int opcao;
 		int item;

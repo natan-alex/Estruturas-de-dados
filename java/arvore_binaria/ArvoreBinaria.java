@@ -153,9 +153,11 @@ public class ArvoreBinaria {
 	}
 
 	private void desalocarNos(No no) {
-		desalocarNos(no.esq);
-		no.esq = null;
-		desalocarNos(no.dir);
-		no.dir = null;
+		if (no != null) {
+			desalocarNos(no.esq);
+			desalocarNos(no.dir);
+			no.esq = null;
+			no.dir = null;
+		}
 	}
 }

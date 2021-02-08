@@ -1,9 +1,10 @@
 package matriz_dinamica;
 
 import main.Common;
+import main.MenuInterface;
 
-public class MenuMatriz {
-	public static MatrizDinamica construirNovaMatriz(int linhas, int colunas) {
+public class MenuMatriz implements MenuInterface {
+	private static MatrizDinamica construirNovaMatriz(int linhas, int colunas) {
 		MatrizDinamica matriz = new MatrizDinamica(linhas, colunas);
 		int item;
 		for (int i = 0; i < linhas; i++) {
@@ -16,7 +17,8 @@ public class MenuMatriz {
 		return matriz;
 	}
 
-	public static void menu() {
+	@Override	
+	public void menu() {
 		System.out.print("Número de linhas da matriz: ");
 		int linhas = Common.input.nextInt();
 		System.out.print("Número de colunas da matriz: ");

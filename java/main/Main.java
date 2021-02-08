@@ -2,6 +2,8 @@ package main;
 
 import arvore_binaria.ArvoreBinaria;
 import arvore_binaria.MenuArvoreBinaria;
+import arvore_avl.ArvoreAvl;
+import arvore_avl.MenuAvl;
 import hash_simples.Hash;
 import hash_simples.MenuHash;
 import fila_dinamica.MenuFila;
@@ -18,27 +20,31 @@ public class Main {
 		if (args.length == 0) {
 			System.out.println("Necessário passar um argumento ao programa.");
 			System.out.println("Argumentos possíveis:");
-			System.out.println("  * arvore");
+			System.out.println("  * arvore_binaria");
+			System.out.println("  * arvore_avl");
 			System.out.println("  * fila");
 			System.out.println("  * hash");
 			System.out.println("  * lista");
 			System.out.println("  * matriz");
 			System.out.println("  * pilha");
 		} else {
-			if (args[0].equals("arvore")) {
-				MenuArvoreBinaria.menu();
+			MenuInterface menuClass = null; 
+			if (args[0].equals("arvore_binaria")) {
+				menuClass = new MenuArvoreBinaria();
+			} else if (args[0].equals("arvore_avl")) {
+				menuClass = new MenuAvl();
 			} else if (args[0].equals("hash")) {
-				MenuHash.menu();
+				menuClass = new MenuHash();
 			} else if (args[0].equals("matriz")) {
-				MenuMatriz.menu();
+				menuClass = new MenuMatriz();
 			} else if (args[0].equals("pilha")) {
-				MenuPilha.menu();
+				menuClass = new MenuPilha();
 			} else if (args[0].equals("fila")) {
-				MenuFila.menu();
+				menuClass = new MenuFila();
 			} else if (args[0].equals("lista")) {
-				MenuLista.menu();
+				menuClass = new MenuLista();
 			}
+			menuClass.menu();
 		}
     }
 }
-

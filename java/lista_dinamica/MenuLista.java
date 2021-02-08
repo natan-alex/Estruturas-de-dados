@@ -1,9 +1,11 @@
 package lista_dinamica;
 
 import main.Common;
+import main.MenuInterface;
 
-public class MenuLista {
-	public static void menu() {
+public class MenuLista implements MenuInterface {
+	@Override	
+	public void menu() {
 		ListaDinamica list = new ListaDinamica();
 		int opcao, item, pos;
 		do {
