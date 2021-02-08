@@ -25,11 +25,7 @@ public class FilaDinamica {
 		boolean insercaoFeita = false;
 		Celula auxiliar = new Celula(item);
 
-		if (isFilaVazia()) {
-			primeiraAuxiliar.prox = auxiliar;
-		}
-
-		ultima.prox = auxiliar; 
+		ultima.prox = auxiliar;
 		ultima = auxiliar;
 		qtd++;
 		auxiliar = null;
@@ -57,9 +53,10 @@ public class FilaDinamica {
 
 		Celula auxiliar = primeiraAuxiliar;
 		primeiraAuxiliar = primeiraAuxiliar.prox;
+		itemRemovido = primeiraAuxiliar.item;
 		auxiliar.prox = null;
 		auxiliar = null;
-		itemRemovido = primeiraAuxiliar.item;
+
 		qtd--;
 
 		return itemRemovido;
@@ -72,6 +69,4 @@ public class FilaDinamica {
 		}
 		System.out.println("]");
 	}
-
 }
-

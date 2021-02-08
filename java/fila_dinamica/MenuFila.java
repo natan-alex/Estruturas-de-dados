@@ -40,7 +40,7 @@ public class MenuFila implements MenuInterface {
 				case 3:
 					item = fila.desenfileirar();
 					if (item != Integer.MIN_VALUE)
-						System.out.println("Item desenfileirado: "+fila.desenfileirar());
+						System.out.println("Item desenfileirado: "+item);
 					break;
 				case 4:
 					System.out.println("Itens: ");
