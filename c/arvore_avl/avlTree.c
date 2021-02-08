@@ -3,8 +3,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <math.h>
+
+int remocaoFeita, insercaoFeita;
+
+// ===========================================================
 
 AvlTree * newAvl() { 
 	AvlTree * avl = (AvlTree *) malloc(sizeof(AvlTree));
@@ -32,9 +35,7 @@ void atualizarFatorDoNo(No * no) {
 // cálculo é feito com fator do nó a esquerda
 // menos o fator do nó a direita
 int calcularFatorDoNo(No * no) {
-	int fatorEsq = getFatorDoNo(no->esq);
-	int fatorDir = getFatorDoNo(no->dir);
-	return fatorEsq - fatorDir;
+	return getFatorDoNo(no->esq) - getFatorDoNo(no->dir);
 }
 
 // ===========================================================
@@ -44,6 +45,10 @@ No * realizarRotacaoSimplesAEsquerda(No * no) {
 	No * noDirEsq = noDir->esq;
 	no->dir = noDirEsq;
 	noDir->esq = no;
+
+	atualizarFatorDoNo(no);
+	atualizarFatorDoNo(noDir);
+
 	return noDir;
 }
 
@@ -164,7 +169,7 @@ No * balancearNo(No * no) {
 No * inserir(No * no, int item) {
 	if (no == NULL) {
 		no = newNo(item);
-		printf("Item inserido com sucesso.\n");
+		insercaoFeita = 1;
 	} else if (item > no->item) {
 		no->dir = inserir(no->dir, item);
 		no = balancearNo(no);
@@ -178,42 +183,56 @@ No * inserir(No * no, int item) {
 	return no;
 }
 
-void inserirNaArvore(AvlTree * avl, int item) {
+int inserirNaArvore(AvlTree * avl, int item) {
+	insercaoFeita = 0;
 	avl->raiz = inserir(avl->raiz, item);
+	return insercaoFeita;
 }
 
 // ===========================================================
 
-No * retornaMaiorSubArvoreEsq(No * no) {
-	No * tmp = no->esq;
-	for (; tmp->dir != NULL; tmp = tmp->dir);
-	return tmp;
-}
-
 No * remover(No * no, int aSerRemovido) {
 	if (no == NULL) {
 		// item nao encontrado
-		printf("Item nao encontrado.\n");
+		printf("Item não encontrado.\n");
 	} else if (aSerRemovido > no->item) {
 		no->dir = remover(no->dir, aSerRemovido);
 	} else if (aSerRemovido < no->item) {
 		no->esq = remover(no->esq, aSerRemovido);
 	} else if (no->esq == NULL) {
 		no = no->dir;
+		remocaoFeita = 1;
 	} else if (no->dir == NULL) {
 		no = no->esq;
+		remocaoFeita = 1;
 	} else {
-		No * tmp = no->esq;
-		no->esq = retornaMaiorSubArvoreEsq(no)->esq;
+		No * tmp = no->esq, * paiTmp = no;
+		// paiTmp deve andar primeiramente a esquerda
+		if (tmp->dir != NULL) {
+			paiTmp = no->esq;
+			tmp = tmp->dir;
+		}
+		for (; tmp->dir != NULL; tmp = tmp->dir, paiTmp = paiTmp->dir);
 		no->item = tmp->item;
+		if (paiTmp == no) {
+			// nada a direita de tmp
+			no->esq = tmp->esq;
+		} else {
+			paiTmp->dir = tmp->esq;
+			atualizarFatorDoNo(paiTmp);
+		}
 		free(tmp);
+		paiTmp = NULL;
 		tmp = NULL;
+		remocaoFeita = 1;
 	}
 	return balancearNo(no);
 }
 
-void removerDaArvore(AvlTree * avl, int aSerRemovido) {
+int removerDaArvore(AvlTree * avl, int aSerRemovido) {
+	remocaoFeita = 0;
 	avl->raiz = remover(avl->raiz, aSerRemovido);
+	return remocaoFeita;
 }
 
 // ===========================================================
@@ -255,11 +274,11 @@ void pesquisarPorNoContendoItem(AvlTree * avl, int item) {
 
 // ===========================================================
 
-bool pesquisar(No * no, int item) {
-	bool encontrado = false;
+int pesquisar(No * no, int item) {
+	int encontrado = 0;
 	if (no != NULL) {
 		if (item == no->item) {
-			encontrado = true;
+			encontrado = 1;
 		} else if (item > no->item) {
 			encontrado = pesquisar(no->dir, item);
 		} else {
@@ -269,12 +288,8 @@ bool pesquisar(No * no, int item) {
 	return encontrado;
 }
 
-void pesquisarPorItemNaArvore(AvlTree * avl, int item) {
-	if (pesquisar(avl->raiz, item)) {
-		printf("Item encontrado!\n");
-	} else {
-		printf("Item nao encontrado.\n");
-	}
+int pesquisarPorItemNaArvore(AvlTree * avl, int item) {
+	return pesquisar(avl->raiz, item);
 }
 
 // ===========================================================

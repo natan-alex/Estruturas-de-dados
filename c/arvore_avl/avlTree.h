@@ -1,5 +1,4 @@
 #include "noAvl.h"
-#include <stdbool.h>
 
 #ifndef AVL_TREE_H
 #define AVL_TREE_H
@@ -21,8 +20,6 @@ int calcularFatorDoNo(No * no);
 No * realizarRotacaoSimplesAEsquerda(No * no);
 
 No * realizarRotacaoSimplesADireita(No * no);
-
-  
 
 No * realizarRotacaoDuplaAEsquerda(No * no);
 
@@ -50,21 +47,21 @@ No * balancearNo(No * no);
 
 No * inserir(No * no, int item);
 
-void inserirNaArvore(AvlTree * avl, int item);
+int inserirNaArvore(AvlTree * avl, int item);
 
 No * retornaMaiorSubArvoreEsq(No * no);
 
 No * remover(No * no, int aSerRemovido);
 
-void removerDaArvore(AvlTree * avl, int aSerRemovido);
+int removerDaArvore(AvlTree * avl, int aSerRemovido);
 
 No * pesquisarInfos(No * no, int item);
 
 void pesquisarPorNoContendoItem(AvlTree * avl, int item);
 
-bool pesquisar(No * no, int item);
+int pesquisar(No * no, int item);
 
-void pesquisarPorItemNaArvore(AvlTree * avl, int item);
+int pesquisarPorItemNaArvore(AvlTree * avl, int item);
 
 void desalocarNos(No * no);
 

@@ -31,17 +31,29 @@ void menuAvl() {
 			case 1:
 				printf("Item a ser inserido: ");
 				scanf("%d", &item);
-				inserirNaArvore(avl, item);
+				if (inserirNaArvore(avl, item)) {
+					printf("Item inserido com sucesso.\n");
+				} else { 
+					printf("Falha ao inserir o item.\n");
+				}
 				break;
 			case 2:
 				printf("Item a ser removido: ");
 				scanf("%d", &item);
-				removerDaArvore(avl, item);
+				if (removerDaArvore(avl, item)) {
+					printf("Item removido com sucesso.\n");
+				} else { 
+					printf("Falha ao remover o item.\n");
+				}
 				break;
 			case 3:
 				printf("Item a ser procurado: ");
 				scanf("%d", &item);
-				pesquisarPorItemNaArvore(avl, item);
+				if (pesquisarPorItemNaArvore(avl, item)) {
+					printf("Item encontrado na árvore.\n");
+				} else {
+					printf("Item não encontrado.\n");
+				}
 				break;
 			case 4:
 				printf("Item a ser procurado: ");
