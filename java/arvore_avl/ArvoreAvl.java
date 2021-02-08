@@ -11,9 +11,11 @@ public class ArvoreAvl {
 		raiz = null;
 	}
 
-	public boolean isAvlVazia() {
+	public boolean isArvoreVazia() {
 		return raiz == null;
 	}
+
+	// ===========================================================
 
 	private NoAvl realizarRotacaoSimplesAEsquerda(NoAvl no) {
 		NoAvl noDir = no.dir;
@@ -49,6 +51,8 @@ public class ArvoreAvl {
 		return realizarRotacaoSimplesAEsquerda(no);
 	}
 
+	// ===========================================================
+
 	private static int getMaior(int n1, int n2) {
 		return (n1 <= n2) ? n2 : n1;		
 	}
@@ -67,9 +71,7 @@ public class ArvoreAvl {
 	// cálculo é feito com fator do nó a esquerda
 	// menos o fator do nó a direita
 	private static int calcularFatorDoNo(NoAvl no) {
-		int fatorEsq = getFatorDoNo(no.esq);
-		int fatorDir = getFatorDoNo(no.dir);
-		return fatorEsq - fatorDir;
+		return getFatorDoNo(no.esq) - getFatorDoNo(no.dir);
 	}
 
 	// retorna o nó balanceado fazendo as devidas rotações
@@ -95,6 +97,8 @@ public class ArvoreAvl {
 		}
 		return no;
 	}
+
+	// ===========================================================
 
 	public boolean inserirItemNaAvl(int item) {
 		insercaoFeita = false;
@@ -124,6 +128,8 @@ public class ArvoreAvl {
 		return no;
 	}
 
+	// ===========================================================
+
 	public boolean removerItemDaAvl(int item) {
 		remocaoFeita = false;
 		raiz = removerItemDaAvl(item, raiz);
@@ -136,11 +142,9 @@ public class ArvoreAvl {
 		} else if (no.item > item) {
 			// procura deve continuar a esquerda
 			no.esq = removerItemDaAvl(item, no.esq);
-			remocaoFeita = true;
 		} else if (no.item < item) {
 			// procura deve continuar a direita
 			no.dir = removerItemDaAvl(item, no.dir);
-			remocaoFeita = true;
 		} else if (no.esq == null) {
 			// em caso de no.dir == null, o nó 
 			// recebe null, portanto tudo certo
@@ -150,23 +154,20 @@ public class ArvoreAvl {
 			no = no.esq;
 			remocaoFeita = true;
 		} else {
-			// nó a ser removido receberá o maior item
-			// da subárvore a sua esquerda
 			NoAvl tmp = no.esq, paiTmp = no;
+			// paiTmp deve andar primeiramente a esquerda
 			if (tmp.dir != null) {
+				paiTmp = no.esq;
 				tmp = tmp.dir;
-				paiTmp = paiTmp.esq;
 			}
-			// caminhar até o maior nó
 			for (; tmp.dir != null; tmp = tmp.dir, paiTmp = paiTmp.dir);
-
 			no.item = tmp.item;
 			if (paiTmp == no) {
-				// tmp == no.esq, ou seja, não havia 
-				// nenhum nó a direita de tmp
+				// nada a direita de tmp
 				no.esq = tmp.esq;
 			} else {
 				paiTmp.dir = tmp.esq;
+				atualizarFatorDoNo(paiTmp);
 			}
 			paiTmp = null;
 			tmp = null;
@@ -174,6 +175,8 @@ public class ArvoreAvl {
 		}
 		return balancearNo(no);
 	}
+
+	// ===========================================================
 	
 	public boolean pesquisarPorItemNaAvl(int item) {
 		return pesquisarPorItemNaAvl(item, raiz);	
@@ -195,6 +198,8 @@ public class ArvoreAvl {
 
 		return encontrado;
 	}
+	
+	// ===========================================================
 	
 	public void mostrarAvlEmPreOrdem() {
 		System.out.print("Pré-ordem: [ ");
@@ -243,5 +248,20 @@ public class ArvoreAvl {
 		mostrarAvlEmPreOrdem();
 		mostrarAvlEmOrdem();
 		mostrarAvlEmPosOrdem();
+	}
+
+	// ===========================================================
+	
+	public void desalocarArvoreDaMemoria() {
+		desalocarArvoreDaMemoria(raiz);
+	}
+
+	public void desalocarArvoreDaMemoria(NoAvl no) {
+		if (no != null) {
+			desalocarArvoreDaMemoria(no.esq);
+			desalocarArvoreDaMemoria(no.dir);
+			no.esq = null;
+			no.dir = null;
+		}
 	}
 }

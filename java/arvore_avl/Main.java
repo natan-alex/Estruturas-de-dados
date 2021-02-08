@@ -4,9 +4,9 @@ public class Main {
     public static void main(String[] args) {
 		ArvoreAvl avl = new ArvoreAvl();
 
-		int aInserir[] = {12, 15, 18, 2, 5, 19, 4, 23, 10, 11, 1, 3};
-		for (int i = 0; i < aInserir.length; i++) 
-			avl.inserirItemNaAvl(aInserir[i]);
+		int aInserir[] = {10,12,15,5,2,3,20,11,17,13};
+		for (int item : aInserir)
+			avl.inserirItemNaAvl(item);
 
 		avl.mostrarEmTodasAsOrdens();
 		System.out.println(avl.pesquisarPorItemNaAvl(20));
