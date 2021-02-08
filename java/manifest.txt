@@ -1,0 +1,3 @@
+Main-Class: main.Main
+Name: main/Main.class
+Java-Bean: True
