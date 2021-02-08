@@ -30,6 +30,12 @@ pilhaDinamica:
 	javac pilha_dinamica/*.java main/*.java
 	java main.Main pilha
 
+jarForDinamicos:
+	for class in $$(find . -type f -name '*.class'); do rm $$class; done
+	javac */*.java
+	jar cfm EstruturasDinamicas.jar manifest.txt */*.class
+	java -jar EstruturasDinamicas.jar
+
 clean: 
 	for class in $$(find . -type f -name '*.class'); do rm $$class; done
 	rm *.jar
