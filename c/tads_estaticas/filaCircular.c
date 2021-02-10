@@ -1,44 +1,95 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define TAM 5
-// the maximum size of the queue
-#define REALSIZE (TAM+1)
 
-int first = 0;
-int last = 0;
+typedef struct Queue {
+	int size;
+	int first;
+	int last;
+	int * array;
+} Queue;
 
-int array[REALSIZE];
+Queue * newQueue() {
+	Queue * queue = (Queue *) malloc(sizeof(Queue));
+	queue->first = 0; 
+	queue->last = 0;
+	// default size of the queue is 10.
+	queue->size = 10;
+	queue->array = (int *) malloc(sizeof(int) * 11);
+	return queue;
+}
 
-void enqueue(int item) {
-    if ((last + 1) % REALSIZE == first) {
+Queue * newQueue2(int sizeofQueue) {
+	Queue * queue = (Queue *) malloc(sizeof(Queue));
+	queue->first = 0; 
+	queue->last = 0;
+	queue->size = sizeofQueue;
+	queue->array = (int *) malloc(sizeof(int) * (sizeofQueue + 1));
+	return queue;
+}
+
+int enqueue(Queue * queue, int item) {
+	int wasInserted = 0;
+    if ((queue->last + 1) % (queue->size + 1) == queue->first) {
         printf("Fila cheia!\n");
-        return;
+        return wasInserted;
     }
 
-    array[last] = item;
-    last = (last + 1) % REALSIZE;
+	// the last item of the queue refers to the position of the next insertion
+    queue->array[queue->last] = item;
+	// walk trought the array roundly
+    queue->last = (queue->last + 1) % (queue->size + 1);
+	wasInserted = 1;
+	return wasInserted;
 }
 
-int dequeue() {
-    if (first == last) {
+int dequeue(Queue * queue) {
+	int removed = 0x7fffffff;
+    if (queue->first == queue->last) {
         printf("Fila vazia!\n");
-        return -1;
+        return removed; 
     }
 
-    int removido = array[first];
-    first = (first + 1) % REALSIZE;
+	// the first item of the queue refers to the position of the next remotion
+    removed = queue->array[queue->first];
+	// walk trought the array roundly
+    queue->first = (queue->first + 1) % (queue->size + 1);
+	return removed;
 }
 
-void showItens() {
+void showItens(Queue * queue) {
     printf("[");
-    for (int i = first; i != last; ++i) 
-        printf(" %d ", array[i]);
+    for (int i = queue->first; i != queue->last; i = (i + 1) % (queue->size + 1)) 
+        printf(" %d ", queue->array[i]);
     printf("]\n");
 }
 
+void freeQueue(Queue * queue) {
+	free(queue->array);
+}
+
 int main() {
-    for (int i = 0; i < 5; i++)
-        enqueue(i);
-    printf("%d\n", dequeue());
-    showItens();
+	Queue * queue = newQueue();
+    for (int i = 0; i < 11; i++)
+        enqueue(queue, i);
+
+    showItens(queue);
+
+    for (int i = 0; i < 11; i++)
+		printf("%d\n", dequeue(queue));
+
+    showItens(queue);
+
+	for (int i = 1; i < 4; i++)
+		enqueue(queue, i);
+
+	showItens(queue);
+
+	dequeue(queue);
+	dequeue(queue);
+
+	showItens(queue);
+
+	printf("queue->first: %d\n", queue->first);
+	printf("queue->last: %d\n", queue->last);
+	freeQueue(queue);
 }
