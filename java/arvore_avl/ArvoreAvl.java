@@ -58,14 +58,14 @@ public class ArvoreAvl {
 	}
 
 	private static int getFatorDoNo(NoAvl no) {
-		return (no == null) ? 0 : no.fator;
+		return (no == null) ? 0 : 1 + no.fator;
 	}
 
 	// fator do nó recebe o maior entre os fatores
 	// da esquerda e direita -> o que faz com que os fatores
 	// sejam armazenados em módulo
 	public void atualizarFatorDoNo(NoAvl no) {
-		no.fator = 1 + getMaior(getFatorDoNo(no.esq), getFatorDoNo(no.dir)); 
+		no.fator = getMaior(getFatorDoNo(no.esq), getFatorDoNo(no.dir)); 
 	}
 
 	// cálculo é feito com fator do nó a esquerda

@@ -5,7 +5,7 @@ public class NoAvl {
 	NoAvl esq, dir;
 
 	public NoAvl(int item) {
-		this(item, 1, null, null);
+		this(item, 0, null, null);
 	}
 	
 	public NoAvl(int item, int fator, NoAvl esq, NoAvl dir) {

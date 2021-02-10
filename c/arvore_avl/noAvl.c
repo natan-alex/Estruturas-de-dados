@@ -7,6 +7,6 @@ No * newNo(int item) {
 	no->item = item;
 	no->esq = NULL;
 	no->dir = NULL;
-	no->fator = 1;
+	no->fator = 0;
 	return no;
 }

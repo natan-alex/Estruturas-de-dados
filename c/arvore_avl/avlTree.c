@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <math.h>
 
+// controlar o sucesso das inserções e das remoções feitas na 
+// árvore
 int remocaoFeita, insercaoFeita;
 
 // ===========================================================
@@ -22,14 +24,14 @@ int getMaior(int n1, int n2) {
 }
 
 int getFatorDoNo(No * no) {
-	return (no == NULL) ? 0 : no->fator;
+	return (no == NULL) ? 0 : 1 + no->fator;
 }
 
 // fator do nó recebe o maior entre os fatores
-// da esquerda e direita -> o que faz com que os fatores
-// sejam armazenados em módulo
+// da esquerda e direita -> fatores sempre são armazenados
+// em valores inteiros não negativos
 void atualizarFatorDoNo(No * no) {
-	no->fator = 1 + getMaior(getFatorDoNo(no->esq), getFatorDoNo(no->dir)); 
+	no->fator = getMaior(getFatorDoNo(no->esq), getFatorDoNo(no->dir)); 
 }
 
 // cálculo é feito com fator do nó a esquerda
