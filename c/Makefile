@@ -1,5 +1,5 @@
 dirs = arvore_avl fila_dinamica lista_dinamica pilha_dinamica
-nomesDosCompilados = compiladoDinamicos arvoreAvl filaDinamica hashComLista listaDinamica pilhaDinamica filaCircular hashSimples listaSimples
+nomesDosCompilados = compiladoDinamicos arvoreAvl filaDinamica hashComLista listaDinamica pilhaDinamica filaCircular hashSimples pilhaEstatica
 
 define checkIfMainIsHidden =
 	if [ -e "$$\{dirs[0]\}/.main.c" ] && [ -e "$$\{dirs[1]\}/.main.c" ]; then $(call showAllMain); fi
@@ -33,7 +33,7 @@ pilhaDinamica:
 
 dinamicos: arvoreAvl filaDinamica listaDinamica pilhaDinamica
 	
-estaticos: filaCircular hashSimples listaSimples
+estaticos: filaCircular hashSimples pilhaEstatica
 
 filaCircular:
 	gcc tads_estaticas/filaCircular.c -Wall -pedantic -o filaCircular
@@ -41,8 +41,8 @@ filaCircular:
 hashSimples:
 	gcc tads_estaticas/hash.c -Wall -pedantic -o hashSimples
 
-listaSimples:
-	gcc tads_estaticas/pilha.c -Wall -pedantic -o listaSimples
+pilhaEstatica:
+	gcc tads_estaticas/pilhaEstatica.c -Wall -pedantic -o pilhaEstatica
 
 clean:
 	for lixo in $$(find . -type f -name ".*~"); do rm $$lixo; done
