@@ -36,13 +36,13 @@ dinamicos: arvoreAvl filaDinamica listaDinamica pilhaDinamica
 estaticos: filaCircular hashSimples pilhaEstatica
 
 filaCircular:
-	gcc tads_estaticas/filaCircular.c -Wall -pedantic -o filaCircular
+	gcc fila_circular/* -Wall -pedantic -o filaCircular
 
 hashSimples:
-	gcc tads_estaticas/hash.c -Wall -pedantic -o hashSimples
+	gcc hash.c -Wall -pedantic -o hashSimples
 
 pilhaEstatica:
-	gcc tads_estaticas/pilhaEstatica.c -Wall -pedantic -o pilhaEstatica
+	gcc pilha_estatica/* -Wall -pedantic -o pilhaEstatica
 
 clean:
 	for lixo in $$(find . -type f -name ".*~"); do rm $$lixo; done
