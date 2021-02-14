@@ -1,9 +1,5 @@
-dirs = arvore_avl fila_dinamica lista_dinamica pilha_dinamica
-nomesDosCompilados = compiladoDinamicos arvoreAvl filaDinamica hashComLista listaDinamica pilhaDinamica filaCircular hashSimples pilhaEstatica
-
-define checkIfMainIsHidden =
-	if [ -e "$$\{dirs[0]\}/.main.c" ] && [ -e "$$\{dirs[1]\}/.main.c" ]; then $(call showAllMain); fi
-endef
+dirs = arvore_avl arvore_binaria fila_dinamica lista_dinamica pilha_dinamica
+nomesDosCompilados = compiladoDinamicos arvoreAvl arvoreBinaria filaDinamica hashComLista listaDinamica pilhaDinamica filaCircular hashSimples pilhaEstatica
 
 define hideAllMain = 
 	for dir in $(dirs); do mv $$dir/main.c $$dir/.main.c; done
@@ -14,10 +10,13 @@ define showAllMain =
 endef
 
 all:
-	$(call checkIfMainIsHidden)
-	$(call hideAllMain)
-	gcc arvore_avl/* common/* menu.c fila_dinamica/* lista_dinamica/* pilha_dinamica/* -Wall -pedantic -o compiladoDinamicos
 	$(call showAllMain)
+	$(call hideAllMain)
+	gcc arvore_avl/* arvore_binaria/* common/* menu.c fila_dinamica/* lista_dinamica/* pilha_dinamica/* -Wall -pedantic -o compiladoDinamicos
+	$(call showAllMain)
+
+arvoreBinaria:
+	gcc arvore_binaria/* -Wall -pedantic -o arvoreBinaria
 
 arvoreAvl:
 	gcc arvore_avl/* common/* -Wall -pedantic -o arvoreAvl

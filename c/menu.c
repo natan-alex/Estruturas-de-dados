@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "arvore_binaria/menuBinaria.h"
 #include "arvore_avl/menuAvl.h"
 #include "fila_dinamica/menuFilaDinamica.h"
 #include "lista_dinamica/menuListaDinamica.h"
@@ -11,19 +12,24 @@ int main(int argc, char ** argv) {
 	if (argc < 2) {
 		printf("Nenhum argumento passado ao programa.\n");
 		printf("Argumentos possíveis: \n");
-		printf(" * avl\n");
-		printf(" * lista\n");
-		printf(" * fila\n");
-		printf(" * pilha\n");
+		printf(" * arvore_avl\n");
+		printf(" * arvore_binaria\n");
+		printf(" * lista_dinamica\n");
+		printf(" * fila_dinamica\n");
+		printf(" * pilha_dinamica\n");
 	} else {
-		if (strcmp(argv[1], "avl") == 0) {
+		if (strcmp(argv[1], "arvore_avl") == 0) {
 			menuAvl();	
-		} else if (strcmp(argv[1], "lista") == 0) {
+		} else if (strcmp(argv[1], "arvore_binaria") == 0) {
+			menuBinaria();
+		} else if (strcmp(argv[1], "lista_dinamica") == 0) {
 			menuListaDinamica();
-		} else if (strcmp(argv[1], "fila") == 0) {
+		} else if (strcmp(argv[1], "fila_dinamica") == 0) {
 			menuFilaDinamica();
-		} else if (strcmp(argv[1], "pilha") == 0) {
+		} else if (strcmp(argv[1], "pilha_dinamica") == 0) {
 			menuPilhaDinamica();
+		} else {
+			printf("Argumento inválido\n");
 		}
 	}
 
