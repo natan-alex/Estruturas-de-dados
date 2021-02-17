@@ -61,7 +61,7 @@ void menuHashComLista() {
 			case 4:
 				printf("Posição, na tabela, do item a ser removido: ");
 				scanf("%d", &item);
-				if (removerDoFimDaListaDaTabela(thash, item)) {
+				if (removerDoFimDaListaDaTabela(thash, item) != 0x7fffffff) {
 					printf("Item removido com sucesso.\n");
 				} else { 
 					printf("Falha ao remover o item.\n");
@@ -70,7 +70,7 @@ void menuHashComLista() {
 			case 5:
 				printf("Posição, na tabela, do item a ser removido: ");
 				scanf("%d", &item);
-				if (removerDoInicioDaListaDaTabela(thash, item)) {
+				if (removerDoInicioDaListaDaTabela(thash, item) != 0x7fffffff) {
 					printf("Item removido com sucesso.\n");
 				} else { 
 					printf("Falha ao remover o item.\n");
@@ -81,7 +81,7 @@ void menuHashComLista() {
 				scanf("%d", &pos);
 				printf("Posição de remoção na lista: ");
 				scanf("%d", &posNaLista);
-				if (removerDaTabelaNaPos(thash, pos, posNaLista)) {
+				if (removerDaTabelaNaPos(thash, pos, posNaLista) != 0x7fffffff) {
 					printf("Item removido com sucesso.\n");
 				} else { 
 					printf("Falha ao remover o item.\n");

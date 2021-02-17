@@ -7,6 +7,7 @@
 #include "fila_dinamica/menuFilaDinamica.h"
 #include "lista_dinamica/menuListaDinamica.h"
 #include "pilha_dinamica/menuPilhaDinamica.h"
+#include "hash_com_lista/menuHashComLista.h"
 
 int main(int argc, char ** argv) {
 	if (argc < 2) {
@@ -14,6 +15,7 @@ int main(int argc, char ** argv) {
 		printf("Argumentos possíveis: \n");
 		printf(" * arvore_avl\n");
 		printf(" * arvore_binaria\n");
+		printf(" * hash_com_lista\n");
 		printf(" * lista_dinamica\n");
 		printf(" * fila_dinamica\n");
 		printf(" * pilha_dinamica\n");
@@ -22,6 +24,8 @@ int main(int argc, char ** argv) {
 			menuAvl();	
 		} else if (strcmp(argv[1], "arvore_binaria") == 0) {
 			menuBinaria();
+		} else if (strcmp(argv[1], "hash_com_lista") == 0) {
+			menuHashComLista();
 		} else if (strcmp(argv[1], "lista_dinamica") == 0) {
 			menuListaDinamica();
 		} else if (strcmp(argv[1], "fila_dinamica") == 0) {

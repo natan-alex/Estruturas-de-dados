@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <limits.h>
 
 THash * newTHash(int tamanho) {
 	THash * thash = (THash *) malloc(sizeof(THash));
@@ -41,7 +40,7 @@ bool inserirNumaPosDaListaDaTabela(THash * thash, int item, int pos) {
 }
 
 int removerDoFimDaListaDaTabela(THash * thash, int pos) {
-    int removido = INT_MIN;
+    int removido = 0x7fffffff;
     if (pos >= 0 && pos < (thash->tamTabela)) {
         removido = removerDoFim(thash->tabelaHash[pos]);
     } else {
@@ -51,7 +50,7 @@ int removerDoFimDaListaDaTabela(THash * thash, int pos) {
 }
 
 int removerDoInicioDaListaDaTabela(THash * thash, int pos) {
-    int removido = INT_MIN;
+    int removido = 0x7fffffff;
     if (pos >= 0 && pos < (thash->tamTabela)) {
         removido = removerDoInicio(thash->tabelaHash[pos]);
     } else {
@@ -61,7 +60,7 @@ int removerDoInicioDaListaDaTabela(THash * thash, int pos) {
 }
 
 int removerDaTabelaNaPos(THash * thash, int posNaHash, int posNaLista) {
-    int removido = INT_MIN;
+    int removido = 0x7fffffff;
     if (posNaHash >= 0 && posNaHash < (thash->tamTabela)) {
         if (posNaLista >= 0 && posNaLista < (thash->tabelaHash[posNaHash]->qtd)) {
             removido = removerDaPos(thash->tabelaHash[posNaHash], posNaLista);
