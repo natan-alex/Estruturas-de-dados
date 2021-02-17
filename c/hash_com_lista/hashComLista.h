@@ -4,30 +4,33 @@
 #include "../lista_dinamica/listaDinamica.h"
 #include <stdbool.h>
 
-extern int tamTabela;
+typedef struct THash {
+	int tamTabela;
+	Lista ** tabelaHash;
+} THash;
 
-Lista ** newHash(); 
+THash * newTHash(int tamanho);
 
-Lista ** newHash2(int tamanho); 
+int hash(THash * thash, int item);
 
-int hash(int item); 
+bool inserirNoFimDaListaDaTabela(THash * thash, int item);
 
-bool pesquisarItemNaTabela(Lista ** thash, int item); 
+bool inserirNoInicioDaListaDaTabela(THash * thash, int item);
 
-void getPosicaoDeUmItem(Lista ** thash, int item); 
+bool inserirNumaPosDaListaDaTabela(THash * thash, int item, int pos);
 
-void mostrarItensTabela(Lista ** thash); 
+int removerDoFimDaListaDaTabela(THash * thash, int pos);
 
-bool inserirNoFimDaListaDaTabela(Lista ** thash, int Item); 
+int removerDoInicioDaListaDaTabela(THash * thash, int pos);
 
-bool inserirNoInicioDaListaDaTabela(Lista ** thash, int item); 
+int removerDaTabelaNaPos(THash * thash, int posNaHash, int posNaLista);
 
-bool inserirNumaPosDaListaDaTabela(Lista ** thash, int item, int pos); 
+bool pesquisarItemNaTabela(THash * thash, int item);
 
-int removerDoFimDaListaDaTabela(Lista ** thash, int pos); 
+void getPosicaoDeUmItem(THash * thash, int item);
 
-int removerDoInicioDaListaDaTabela(Lista ** thash, int pos); 
+void mostrarItensTabela(THash * thash);
 
-int removerDaTabelaNaPos(Lista ** thash, int posNaHash, int posNaLista); 
+void desalocarHash(THash * thash);
 
 #endif

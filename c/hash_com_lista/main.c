@@ -1,7 +1,7 @@
-/* #include "menuHashComLista.h" */
+#include "menuHashComLista.h"
 
-/* int main(int argc, char ** argv) { */
-/* 	menuHashComLista(); */
-/*     return 0; */
-/* } */
+int main(int argc, char ** argv) {
+	menuHashComLista();
+    return 0;
+}
 

@@ -6,66 +6,65 @@
 #include <stdbool.h>
 #include <limits.h>
 
-int tamTabela;
-
-Lista ** newHash(int tamanho) {
-    tamTabela = tamanho;
-    Lista ** tabelaHash = (Lista **) malloc(sizeof(Lista *) * tamTabela);
-    for (int i = 0; i < tamTabela; i++) 
-        tabelaHash[i] = newLista();
-    return tabelaHash;
+THash * newTHash(int tamanho) {
+	THash * thash = (THash *) malloc(sizeof(THash));
+    thash->tamTabela = tamanho;
+    thash->tabelaHash = (Lista **) malloc(sizeof(Lista *) * (thash->tamTabela));
+    for (int i = 0; i < (thash->tamTabela); i++) 
+        thash->tabelaHash[i] = newLista();
+    return thash;
 }
 
-int hash(int item) {
-    return item % tamTabela;
+int hash(THash * thash, int item) {
+    return item % (thash->tamTabela);
 }
 
-bool inserirNoFimDaListaDaTabela(Lista ** thash, int item) {
+bool inserirNoFimDaListaDaTabela(THash * thash, int item) {
     bool inseriuComSucesso = false;
-    int pos = hash(item);
-    inseriuComSucesso = inserirNoFim(thash[pos], item);
+    int pos = hash(thash, item);
+    inseriuComSucesso = inserirNoFim(thash->tabelaHash[pos], item);
     return inseriuComSucesso;
 }
 
-bool inserirNoInicioDaListaDaTabela(Lista ** thash, int item) {
+bool inserirNoInicioDaListaDaTabela(THash * thash, int item) {
     bool inseriuComSucesso = false;
-    int pos = hash(item);
-    inseriuComSucesso = inserirNoInicio(thash[pos], item);
+    int pos = hash(thash, item);
+    inseriuComSucesso = inserirNoInicio(thash->tabelaHash[pos], item);
     return inseriuComSucesso;
 }
 
-bool inserirNumaPosDaListaDaTabela(Lista ** thash, int item, int pos) {
+bool inserirNumaPosDaListaDaTabela(THash * thash, int item, int pos) {
     bool inseriuComSucesso = false;
-    int posNaHash = hash(item);
-    inseriuComSucesso = inserirNaPos(thash[posNaHash], item, pos);
+    int posNaHash = hash(thash, item);
+    inseriuComSucesso = inserirNaPos(thash->tabelaHash[posNaHash], item, pos);
     return inseriuComSucesso;
 }
 
-int removerDoFimDaListaDaTabela(Lista ** thash, int pos) {
+int removerDoFimDaListaDaTabela(THash * thash, int pos) {
     int removido = INT_MIN;
-    if (pos >= 0 && pos < tamTabela) {
-        removido = removerDoFim(thash[pos]);
+    if (pos >= 0 && pos < (thash->tamTabela)) {
+        removido = removerDoFim(thash->tabelaHash[pos]);
     } else {
         printf("Posicao na tabela invalida.\n");
     }
     return removido;
 }
 
-int removerDoInicioDaListaDaTabela(Lista ** thash, int pos) {
+int removerDoInicioDaListaDaTabela(THash * thash, int pos) {
     int removido = INT_MIN;
-    if (pos >= 0 && pos < tamTabela) {
-        removido = removerDoInicio(thash[pos]);
+    if (pos >= 0 && pos < (thash->tamTabela)) {
+        removido = removerDoInicio(thash->tabelaHash[pos]);
     } else {
         printf("Posicao na tabela invalida.\n");
     }
     return removido;
 }
 
-int removerDaTabelaNaPos(Lista ** thash, int posNaHash, int posNaLista) {
+int removerDaTabelaNaPos(THash * thash, int posNaHash, int posNaLista) {
     int removido = INT_MIN;
-    if (posNaHash >= 0 && posNaHash < tamTabela) {
-        if (posNaLista >= 0 && posNaLista < thash[posNaHash]->qtd) {
-            removido = removerDaPos(thash[posNaHash], posNaLista);
+    if (posNaHash >= 0 && posNaHash < (thash->tamTabela)) {
+        if (posNaLista >= 0 && posNaLista < (thash->tabelaHash[posNaHash]->qtd)) {
+            removido = removerDaPos(thash->tabelaHash[posNaHash], posNaLista);
         } else {
             printf("Posicao de remocao na lista invalida.\n");
         }
@@ -75,17 +74,17 @@ int removerDaTabelaNaPos(Lista ** thash, int posNaHash, int posNaLista) {
     return removido;
 }
 
-bool pesquisarItemNaTabela(Lista ** thash, int item) {
+bool pesquisarItemNaTabela(THash * thash, int item) {
     bool existeOItem = false;
-    int posItem = hash(item);
-    existeOItem = pesquisarItemNaLista(thash[posItem], item);
+    int posItem = hash(thash, item);
+    existeOItem = pesquisarItemNaLista(thash->tabelaHash[posItem], item);
     return existeOItem;
 }
 
-void getPosicaoDeUmItem(Lista ** thash, int item) {
+void getPosicaoDeUmItem(THash * thash, int item) {
     printf("Pesquisando pelo item %d...\n", item);
-    int posItemNaTabela = hash(item);
-	int posItemNaLista = getPosicaoDoItemNaLista(thash[posItemNaTabela], item);
+    int posItemNaTabela = hash(thash, item);
+	int posItemNaLista = getPosicaoDoItemNaLista(thash->tabelaHash[posItemNaTabela], item);
     if (posItemNaLista != -1) {
         printf("Item encontrado na posição %d da tabela e %d da lista.\n", posItemNaTabela, posItemNaLista);
     } else {
@@ -93,11 +92,18 @@ void getPosicaoDeUmItem(Lista ** thash, int item) {
     }
 }
 
-void mostrarItensTabela(Lista ** thash) {
+void mostrarItensTabela(THash * thash) {
 	printf("Itens da tabela:\n");
-    for (int i = 0; i < tamTabela; i++) {
+    for (int i = 0; i < (thash->tamTabela); i++) {
 		printf("Posição %d: ", i);
-        mostrarItensDaLista(thash[i]);
+        mostrarItensDaLista(thash->tabelaHash[i]);
 	}
     printf("\n");
+}
+
+void desalocarHash(THash * thash) {
+	for (int i = 0; i < (thash->tamTabela); i++) {
+		free(thash->tabelaHash[i]);
+	}
+	free(thash);
 }

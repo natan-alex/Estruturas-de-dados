@@ -1,47 +1,51 @@
-dirs = arvore_avl arvore_binaria fila_dinamica lista_dinamica pilha_dinamica
-nomesDosCompilados = compiladoDinamicos arvoreAvl arvoreBinaria filaDinamica hashComLista listaDinamica pilhaDinamica filaCircular hashSimples pilhaEstatica
+dirs = arvore_avl arvore_binaria fila_dinamica lista_dinamica pilha_dinamica hash_com_lista
+nomesDosCompilados = compiladoDinamicos arvoreAvl arvoreBinaria filaDinamica hashComLista listaDinamica pilhaDinamica filaCircular hashSimples hashComLista pilhaEstatica
 
-define hideAllMain = 
-	for dir in $(dirs); do mv $$dir/main.c $$dir/.main.c; done
+define setMainAvoid = 
+	for dir in $(dirs); do mv $$dir/main.c $$dir/main.avoid; done
 endef
 
-define showAllMain = 
-	for dir in $(dirs); do mv $$dir/.main.c $$dir/main.c; done
+define setMainNotAvoid = 
+	for dir in $(dirs); do mv $$dir/main.avoid $$dir/main.c; done
 endef
 
 all:
-	$(call showAllMain)
-	$(call hideAllMain)
-	gcc arvore_avl/* arvore_binaria/* common/* menu.c fila_dinamica/* lista_dinamica/* pilha_dinamica/* -Wall -pedantic -o compiladoDinamicos
-	$(call showAllMain)
+	$(call setMainAvoid)
+	gcc arvore_avl/*.c arvore_binaria/*.c common/*.c hash_com_lista/*.c menu.c fila_dinamica/*.c lista_dinamica/*.c pilha_dinamica/*.c -Wall -pedantic -o compiladoDinamicos
+	$(call setMainNotAvoid)
 
 arvoreBinaria:
-	gcc arvore_binaria/* -Wall -pedantic -o arvoreBinaria
+	gcc arvore_binaria/*.c -Wall -pedantic -o arvoreBinaria
 
 arvoreAvl:
-	gcc arvore_avl/* common/* -Wall -pedantic -o arvoreAvl
+	gcc arvore_avl/*.c common/*.c -Wall -pedantic -o arvoreAvl
 
 filaDinamica:
-	gcc fila_dinamica/* common/* -Wall -pedantic -o filaDinamica
+	gcc fila_dinamica/*.c common/*.c -Wall -pedantic -o filaDinamica
 
 listaDinamica:
-	gcc lista_dinamica/* common/* -Wall -pedantic -o listaDinamica
+	gcc lista_dinamica/*.c common/*.c -Wall -pedantic -o listaDinamica
 
 pilhaDinamica:
-	gcc pilha_dinamica/* common/* -Wall -pedantic -o pilhaDinamica
+	gcc pilha_dinamica/*.c common/*.c -Wall -pedantic -o pilhaDinamica
 
-dinamicos: arvoreAvl filaDinamica listaDinamica pilhaDinamica
+hashComLista:
+	mv lista_dinamica/main.c lista_dinamica/main.avoid
+	gcc hash_com_lista/*.c lista_dinamica/*.c common/*.c -Wall -pedantic -o hashComLista
+	mv lista_dinamica/main.avoid lista_dinamica/main.c
+
+dinamicos: arvoreAvl filaDinamica listaDinamica pilhaDinamica hashComLista
 	
 estaticos: filaCircular hashSimples pilhaEstatica
 
 filaCircular:
-	gcc fila_circular/* -Wall -pedantic -o filaCircular
+	gcc fila_circular/*.c -Wall -pedantic -o filaCircular
 
 hashSimples:
 	gcc hash.c -Wall -pedantic -o hashSimples
 
 pilhaEstatica:
-	gcc pilha_estatica/* -Wall -pedantic -o pilhaEstatica
+	gcc pilha_estatica/*.c -Wall -pedantic -o pilhaEstatica
 
 clean:
 	for lixo in $$(find . -type f -name ".*~"); do rm $$lixo; done
