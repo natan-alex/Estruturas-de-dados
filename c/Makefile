@@ -42,7 +42,7 @@ filaCircular:
 	gcc fila_circular/*.c -Wall -pedantic -o filaCircular
 
 hashSimples:
-	gcc hash.c -Wall -pedantic -o hashSimples
+	gcc hash_simples/*.c -Wall -pedantic -o hashSimples
 
 pilhaEstatica:
 	gcc pilha_estatica/*.c -Wall -pedantic -o pilhaEstatica
